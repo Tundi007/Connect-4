@@ -130,7 +130,9 @@ class UI
 
         }
 
-        for(int rowNumber_Int = 0 ; rowNumber_Int < 5 ; rowNumber_Int++)
+        bool[] placement_BoolArray = new bool[5];
+
+        for(int rowNumber_Int = 4 ; rowNumber_Int > -1 ; rowNumber_Int--)
         {
 
             for(int columnNumber_Int = 0 ; columnNumber_Int < 5 ; columnNumber_Int++)
@@ -148,11 +150,15 @@ class UI
                     System.Console.Write("| X | ");
 
                 }else
+                if(!placement_BoolArray[columnNumber_Int])
                 {
 
-                    System.Console.Write("| - | ");
+                    placement_BoolArray[columnNumber_Int] = true;
+
+                    System.Console.Write("| U | ");
 
                 }
+                else System.Console.Write("| - | ");
 
             }
 
