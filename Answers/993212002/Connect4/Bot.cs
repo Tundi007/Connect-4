@@ -82,212 +82,38 @@ public class MyBot
 
     }
 
-// public static (int,int) MaxPiece_Function(Matrix<Single> copy_SingleMatrix)
-//     {
+    public static (int,int) MaxPiece_Function(Matrix<Single> copy_SingleMatrix)
+    {        
 
-//         int mostBotPiece_Int = -1;
+        Matrix<Single> copyCopy_SingleMatrix = Matrix<Single>.Build.Dense(4,4,0);
 
-//         int mostPlayerPiece_Int = -1;
+        copy_SingleMatrix.CopyTo(copyCopy_SingleMatrix);
 
-//         int tempMostPlayerPiece_Int;
+        Tuple<int, int, Single> coord_IntIntSingleTuple;
 
-//         int tempMostBotPiece_Int;
+        while((coord_IntIntSingleTuple =
+            copyCopy_SingleMatrix.Find(x => x == BID_Int, Zeros.AllowSkip)) != null)
+        {
 
-//         for (int row_Int = 0; row_Int < 5; row_Int++)
-//         {
+            int x_Int = coord_IntIntSingleTuple.Item1;
 
-//             tempMostBotPiece_Int = 0;
+            int y_Int = coord_IntIntSingleTuple.Item2;
+            
+            copyCopy_SingleMatrix[x_Int,y_Int] = 0;
+            
+        }
 
-//             tempMostPlayerPiece_Int = 0;
+        copy_SingleMatrix.Find(x => x == PID_Int, Zeros.AllowSkip);
 
-//             for (int index_Int = 0; index_Int < 5; index_Int++)
-//             {
+        for (int corner_Int = 0; corner_Int < 4; corner_Int++)
+        {
 
-//                 if (copy_SingleMatrix.Row(row_Int)[index_Int] == BID_Int)
-//                 {
+            MyMatrix.FourByFour_Function(copy_SingleMatrix,corner_Int);
+            
+        }
 
-//                     tempMostBotPiece_Int++;
-
-//                     if (mostPlayerPiece_Int < tempMostPlayerPiece_Int)
-//                         (mostPlayerPiece_Int, tempMostPlayerPiece_Int) =
-//                             (tempMostPlayerPiece_Int, 0);
-
-//                 }
-//                 else
-//                 if (copy_SingleMatrix.Row(row_Int)[index_Int] == 0)
-//                 {
-
-//                     if (mostPlayerPiece_Int < tempMostPlayerPiece_Int)
-//                         (mostPlayerPiece_Int, tempMostPlayerPiece_Int) =
-//                             (tempMostPlayerPiece_Int, 0);
-
-//                     if (mostPlayerPiece_Int < tempMostPlayerPiece_Int)
-//                         (mostBotPiece_Int, tempMostBotPiece_Int) =
-//                             (tempMostBotPiece_Int, 0);
-
-//                 }
-//                 else
-//                 {
-
-//                     tempMostPlayerPiece_Int++;
-
-//                     if (mostPlayerPiece_Int < tempMostPlayerPiece_Int)
-
-//                         (mostBotPiece_Int, tempMostBotPiece_Int) =
-//                             (tempMostBotPiece_Int, 0);
-
-//                 }
-
-//             }
-
-//         }
-
-//         for (int column_Int = 0; column_Int < 5; column_Int++)
-//         {
-
-//             tempMostBotPiece_Int = 0;
-
-//             tempMostPlayerPiece_Int = 0;
-
-//             for (int index_Int = 0; index_Int < 5; index_Int++)
-//             {
-
-//                 if (copy_SingleMatrix.Column(column_Int)[index_Int] == BID_Int)
-//                 {
-
-//                     tempMostBotPiece_Int++;
-
-//                     if(mostPlayerPiece_Int<tempMostPlayerPiece_Int)
-//                         (mostPlayerPiece_Int, tempMostPlayerPiece_Int) =
-//                             (tempMostPlayerPiece_Int, 0);
-
-//                 }
-//                 else
-//                 if (copy_SingleMatrix.Column(column_Int)[index_Int] == 0)
-//                 {
-
-//                     if(mostPlayerPiece_Int<tempMostPlayerPiece_Int)
-//                         (mostPlayerPiece_Int, tempMostPlayerPiece_Int) =
-//                             (tempMostPlayerPiece_Int, 0);
-
-//                     if(mostPlayerPiece_Int<tempMostPlayerPiece_Int)
-//                         (mostBotPiece_Int, tempMostBotPiece_Int) =
-//                             (tempMostBotPiece_Int, 0);
-
-//                 }
-//                 else
-//                 {
-
-//                     tempMostPlayerPiece_Int++;
-
-//                     if(mostPlayerPiece_Int<tempMostPlayerPiece_Int)
-
-//                         (mostBotPiece_Int, tempMostBotPiece_Int) =
-//                             (tempMostBotPiece_Int, 0);
-
-//                 }
-
-//             }
-
-//         }
-
-        // for (int diagonal_Int = 0; diagonal_Int < 2; diagonal_Int++)
-        // {
-
-        //     tempMostBotPiece_Int = 0;
-
-        //     tempMostPlayerPiece_Int = 0;
-
-        //     for (int index_Int = 0; index_Int < 5 - diagonal_Int; index_Int++)
-        //     {
-
-        //         if (copy_SingleMatrix[index_Int + diagonal_Int, index_Int] == BID_Int)
-        //         {
-
-        //             tempMostBotPiece_Int++;
-
-        //             if(mostPlayerPiece_Int<tempMostPlayerPiece_Int)
-        //                 (mostPlayerPiece_Int, tempMostPlayerPiece_Int) =
-        //                     (tempMostPlayerPiece_Int, 0);
-
-        //         }
-        //         else
-        //         if (copy_SingleMatrix[index_Int + diagonal_Int, index_Int] == 0)
-        //         {
-
-        //             if(mostPlayerPiece_Int<tempMostPlayerPiece_Int)
-        //                 (mostPlayerPiece_Int, tempMostPlayerPiece_Int) =
-        //                     (tempMostPlayerPiece_Int, 0);
-
-        //             if(mostPlayerPiece_Int<tempMostPlayerPiece_Int)
-        //                 (mostBotPiece_Int, tempMostBotPiece_Int) =
-        //                     (tempMostBotPiece_Int, 0);
-
-        //         }
-        //         else
-        //         {
-
-        //             tempMostPlayerPiece_Int++;
-
-        //             if(mostPlayerPiece_Int<tempMostPlayerPiece_Int)
-
-        //                 (mostBotPiece_Int, tempMostBotPiece_Int) =
-        //                     (tempMostBotPiece_Int, 0);
-
-        //         }
-
-        //     }
-
-        //     for (int reverseIndex_Int = 4; reverseIndex_Int >= 0; reverseIndex_Int--)
-        //     {
-
-        //         if (copy_SingleMatrix[reverseIndex_Int - diagonal_Int, reverseIndex_Int] == BID_Int)
-        //         {
-
-        //             tempMostBotPiece_Int++;
-
-        //             if(mostPlayerPiece_Int<tempMostPlayerPiece_Int)
-        //                 (mostPlayerPiece_Int, tempMostPlayerPiece_Int) =
-        //                     (tempMostPlayerPiece_Int, 0);
-
-        //         }
-        //         else
-        //         if (copy_SingleMatrix[reverseIndex_Int - diagonal_Int, reverseIndex_Int] == 0)
-        //         {
-
-        //             if(mostPlayerPiece_Int<tempMostPlayerPiece_Int)
-        //                 (mostPlayerPiece_Int, tempMostPlayerPiece_Int) =
-        //                     (tempMostPlayerPiece_Int, 0);
-
-        //             if(mostPlayerPiece_Int<tempMostPlayerPiece_Int)
-        //                 (mostBotPiece_Int, tempMostBotPiece_Int) =
-        //                     (tempMostBotPiece_Int, 0);
-
-        //         }
-        //         else
-        //         {
-
-        //             tempMostPlayerPiece_Int++;
-
-        //             if(mostPlayerPiece_Int<tempMostPlayerPiece_Int)
-        //                 (mostBotPiece_Int, tempMostBotPiece_Int) =
-        //                     (tempMostBotPiece_Int, 0);
-
-        //         }
-
-        //     }
-
-        // }
-
-        return (mostBotPiece_Int, mostPlayerPiece_Int);
+        return (0,0);
 
     }
-
-public static (int,int) CalculatePieces_Function()
-{
-
-    return (0,0);
-
-}
 
 }
