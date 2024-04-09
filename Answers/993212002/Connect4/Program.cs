@@ -15,8 +15,8 @@ class Program
 
             MyGame.Load_Function();
 
-        }while(MyGame.Rematch_Function());
-        
+        } while (MyGame.Rematch_Function());
+
     }
-    
+
 }

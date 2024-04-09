@@ -21,45 +21,45 @@ class MyGame
         System.Console.WriteLine("Have A Nice Day!");
 
         Thread.Sleep(300);
-    
+
         Environment.Exit(0);
-    
+
     }
 
     public static bool Rematch_Function()
     {
 
         int option_Int = 1;
-    
-        while(MyUI.UserInterface_Function("Rematch?","No","Yes",option_Int,out int output_Int))
+
+        while (MyUI.UserInterface_Function("Rematch?", "No", "Yes", option_Int, out int output_Int))
         {
 
             option_Int = output_Int;
 
-            if(option_Int == -1) PrematureExit_Function();
-            
+            if (option_Int == -1) PrematureExit_Function();
+
         }
 
-        if(option_Int == 2) return true;
+        if (option_Int == 2) return true;
 
         return false;
-    
+
     }
 
     public static void SideSelect_Function()
     {
 
-        while(!MyUI.UserInterface_Function("Select Your Side(Use Arrow Keys):","O","X",PID_Int,out int output_Int))
+        while (!MyUI.UserInterface_Function("Select Your Side(Use Arrow Keys):", "O", "X", PID_Int, out int output_Int))
         {
 
-            if(output_Int == -1) PrematureExit_Function();
+            if (output_Int == -1) PrematureExit_Function();
 
-            if(output_Int == 2)(PID_Int,BID_Int)= (BID_Int,PID_Int);
+            if (output_Int == 2) (PID_Int, BID_Int) = (BID_Int, PID_Int);
 
         }
 
         MyBot.IDInit_Function(PID_Int, BID_Int);
-    
+
     }
 
     public static void Load_Function()
@@ -67,8 +67,8 @@ class MyGame
 
         System.Console.WriteLine("your side is: " + PID_Int);
 
-        Console.ReadKey(true);        
-    
+        Console.ReadKey(true);
+
         // string loading_String = "[                    ]";        
 
         // bool loading_Bool = true;
@@ -84,7 +84,7 @@ class MyGame
 
         //     if(loading_Int == 22)System.Console.WriteLine("100%");
         //     else System.Console.WriteLine((int)((double)loading_Int/23*100)+"%");
-                
+
         //     loading_String = loading_String[..(loading_Int-1)] + "-" + loading_String[(loading_Int)..];
 
         //     if(loading_Int == 4)Thread.Sleep(200);
@@ -104,15 +104,15 @@ class MyGame
 
         //         if(loading_Int%10==0)
         //         {
-                    
+
         //             Thread.Sleep(400);
-                    
+
         //             loading_Bool = false;
-                
+
         //         }
-            
+
         //     }else Thread.Sleep(5);
-            
+
         // }
 
         // for (int loading_Int = 3; loading_Int > 0; loading_Int--)
@@ -121,7 +121,7 @@ class MyGame
         //     System.Console.WriteLine("Game Starting In " + loading_Int + "...");
 
         //     Thread.Sleep(900);
-            
+
         // }
 
         // Thread.Sleep(300);
@@ -129,7 +129,7 @@ class MyGame
         // Console.Clear();
 
         Game_Function();
-    
+
     }
 
     private static void Game_Function()
@@ -141,30 +141,31 @@ class MyGame
 
         bool gameOver_Bool = false;
 
-        while(!gameOver_Bool)
+        while (!gameOver_Bool)
         {
 
-            while(true){
+            while (true)
+            {
 
-                int nextMove_Int = MyUI.GameInterface_Function(error_String,gameBoard_MyMatrix.GetMatrix_Function());
+                int nextMove_Int = MyUI.GameInterface_Function(error_String, gameBoard_MyMatrix.GetMatrix_Function());
 
                 error_String = "";
 
-                if(nextMove_Int == -1) PrematureExit_Function();
+                if (nextMove_Int == -1) PrematureExit_Function();
 
-                if(gameBoard_MyMatrix.ApplyMove_Function(nextMove_Int,PID_Int))break;
+                if (gameBoard_MyMatrix.ApplyMove_Function(nextMove_Int, PID_Int)) break;
 
-                error_String =$"Can't Place There (Column: {nextMove_Int+1})";
-            
+                error_String = $"Can't Place There (Column: {nextMove_Int + 1})";
+
             }
 
-            gameBoard_MyMatrix.ApplyMove_Function(MyBot.Bot_Function(gameBoard_MyMatrix.GetMatrix_Function()),BID_Int);
+            gameBoard_MyMatrix.ApplyMove_Function(MyBot.Bot_Function(gameBoard_MyMatrix.GetMatrix_Function()), BID_Int);
 
             int winnder_Int = CheckGoal_Function(gameBoard_MyMatrix.GetMatrix_Function());
 
-            if(winnder_Int == PID_Int)Console.WriteLine("You Won!");
+            if (winnder_Int == PID_Int) Console.WriteLine("You Won!");
 
-            if(winnder_Int == BID_Int)Console.WriteLine("Game Over!");
+            if (winnder_Int == BID_Int) Console.WriteLine("Game Over!");
 
             gameOver_Bool = true;
 
@@ -179,44 +180,44 @@ class MyGame
         }
 
     }
-    
+
     private static int CheckGoal_Function(Matrix<Single> matrix_SingleMatrix)
     {
 
-        Matrix<Single>fourByFour_SingleMatrix = Matrix<Single>.Build.Dense(4,4,0);
+        Matrix<Single> fourByFour_SingleMatrix = Matrix<Single>.Build.Dense(4, 4, 0);
 
         for (int corner_Int = 0; corner_Int < 4; corner_Int++)
         {
 
-            fourByFour_SingleMatrix = MyMatrix.FourByFour_Function(matrix_SingleMatrix,corner_Int);
+            fourByFour_SingleMatrix = MyMatrix.FourByFour_Function(matrix_SingleMatrix, corner_Int);
 
-            if(fourByFour_SingleMatrix.Diagonal().All(x => x == PID_Int)) 
+            if (fourByFour_SingleMatrix.Diagonal().All(x => x == PID_Int))
                 return PID_Int;
 
-            if(fourByFour_SingleMatrix.Diagonal().All(x => x == BID_Int))
+            if (fourByFour_SingleMatrix.Diagonal().All(x => x == BID_Int))
                 return BID_Int;
 
             for (int indexFor_Int = 0; indexFor_Int < 4; indexFor_Int++)
             {
 
-                if(fourByFour_SingleMatrix.Column(indexFor_Int).All(x => x == PID_Int))
+                if (fourByFour_SingleMatrix.Column(indexFor_Int).All(x => x == PID_Int))
                     return PID_Int;
 
-                if(fourByFour_SingleMatrix.Row(indexFor_Int).All(x => x == PID_Int))
+                if (fourByFour_SingleMatrix.Row(indexFor_Int).All(x => x == PID_Int))
                     return PID_Int;
 
-                if(fourByFour_SingleMatrix.Column(indexFor_Int).All(x => x == BID_Int))
+                if (fourByFour_SingleMatrix.Column(indexFor_Int).All(x => x == BID_Int))
                     return BID_Int;
 
-                if(fourByFour_SingleMatrix.Row(indexFor_Int).All(x => x == BID_Int))
+                if (fourByFour_SingleMatrix.Row(indexFor_Int).All(x => x == BID_Int))
                     return BID_Int;
-                            
+
             }
-            
+
         }
 
         return 0;
-    
+
     }
 
 }
