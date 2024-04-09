@@ -11,11 +11,11 @@ class Program
         do
         {
 
-            Game.SideSelect_Function();
+            MyGame.SideSelect_Function();
 
-            Game.Load_Function();
+            MyGame.Load_Function();
 
-        }while(Game.Rematch_Function());
+        }while(MyGame.Rematch_Function());
         
     }
     

@@ -2,7 +2,7 @@ using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 namespace Connect4;
 
-class UI
+class MyUI
 {
 
     public static bool UserInterface_Function(string menu_String,string firstOption_String, string secondOption_String, int pointer_Int, out int output_Int)
@@ -46,14 +46,14 @@ class UI
 
     }
 
-    public static int GameInterface_Function(string error_String,Matrix<BigInteger> gameBoard_BigIntegerMatrix)
+    public static int GameInterface_Function(string error_String,Matrix<Single> gameBoard_SingleMatrix)
     {
 
-        return KeyMenu_Function(error_String, gameBoard_BigIntegerMatrix.ToArray());
+        return KeyMenu_Function(error_String, gameBoard_SingleMatrix);
     
     }
 
-    private static int KeyMenu_Function(string error_String, BigInteger[,] menuItems_ArrayString2D)
+    private static int KeyMenu_Function(string error_String, Matrix<Single> menuItems_ArrayString2D)
     {
 
         (int menuPointerColumn_Int,string hint_String) =
@@ -65,6 +65,8 @@ class UI
             Console.Clear();
 
             if(!string.IsNullOrWhiteSpace(error_String))System.Console.WriteLine(error_String);
+
+            error_String = "";
             
             ShowMenu_Function(menuItems_ArrayString2D, menuPointerColumn_Int);
 
@@ -92,7 +94,7 @@ class UI
                 case ConsoleKey.RightArrow:
                 {
                  
-                    if(menuPointerColumn_Int > 4)break;
+                    if(menuPointerColumn_Int > 3)break;
 
                     menuPointerColumn_Int++;
 
@@ -108,7 +110,7 @@ class UI
 
     }
 
-    private static void ShowMenu_Function(BigInteger[,] menuItems_ArrayString2D, int menuPointerColumn_Int)
+    private static void ShowMenu_Function(Matrix<Single> menuItems_ArrayString2D, int menuPointerColumn_Int)
     {
 
         System.Console.WriteLine();
@@ -130,7 +132,7 @@ class UI
 
         }
 
-        bool[] placement_BoolArray = new bool[5];
+        System.Console.WriteLine();
 
         for(int rowNumber_Int = 4 ; rowNumber_Int > -1 ; rowNumber_Int--)
         {
@@ -143,22 +145,20 @@ class UI
 
                     System.Console.Write("| O | ");
 
-                }else
+                }
                 if(menuItems_ArrayString2D[rowNumber_Int,columnNumber_Int] == 2)
                 {
 
                     System.Console.Write("| X | ");
 
-                }else
-                if(!placement_BoolArray[columnNumber_Int])
+                }
+
+                if(menuItems_ArrayString2D[rowNumber_Int,columnNumber_Int] == 0)
                 {
 
-                    placement_BoolArray[columnNumber_Int] = true;
+                    System.Console.Write("| - | ");
 
-                    System.Console.Write("| U | ");
-
-                }
-                else System.Console.Write("| - | ");
+                }               
 
             }
 
