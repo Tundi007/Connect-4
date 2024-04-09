@@ -31,7 +31,7 @@ class MyGame
 
         int option_Int = 1;
 
-        while (MyUI.UserInterface_Function("Rematch?", "No", "Yes", option_Int, out int output_Int))
+        while(!MyUI.UserInterface_Function("Rematch?", "No", "Yes", option_Int, out int output_Int))
         {
 
             option_Int = output_Int;
@@ -55,6 +55,8 @@ class MyGame
             if (output_Int == -1) PrematureExit_Function();
 
             if (output_Int == 2) (PID_Int, BID_Int) = (BID_Int, PID_Int);
+
+            if (output_Int == 1) (PID_Int, BID_Int) = (BID_Int, PID_Int);
 
         }
 
@@ -159,21 +161,31 @@ class MyGame
 
             }
 
+            System.Console.WriteLine("Hi");
+
             gameBoard_MyMatrix.ApplyMove_Function(MyBot.Bot_Function(gameBoard_MyMatrix.GetMatrix_Function()), BID_Int);
+
+            System.Console.WriteLine("Bye");
 
             int winnder_Int = CheckGoal_Function(gameBoard_MyMatrix.GetMatrix_Function());
 
-            if (winnder_Int == PID_Int) Console.WriteLine("You Won!");
+            if (winnder_Int == PID_Int)
+            {
+                
+                Console.WriteLine("You Won!");
+                
+                gameOver_Bool = true;
+                
+            }
 
-            if (winnder_Int == BID_Int) Console.WriteLine("Game Over!");
-
-            gameOver_Bool = true;
-
-            Console.ReadKey();
-
-            Console.Clear();
-
-            System.Console.WriteLine(gameBoard_MyMatrix.GetMatrix_Function());
+            if (winnder_Int == BID_Int)
+            {
+                
+                Console.WriteLine("Game Over!");
+                
+                gameOver_Bool = true;
+                
+            }
 
             Console.ReadKey();
 

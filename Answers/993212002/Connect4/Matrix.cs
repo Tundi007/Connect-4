@@ -77,4 +77,12 @@ public class MyMatrix
 
     }
 
+    public static int CountID_Function(Vector<Single> vector_SingleVector, int ID_Int)
+    {
+
+        return vector_SingleVector.SkipWhile(x => x.Equals(3)).TakeWhile(x => x.Equals(ID_Int)).Count();
+        
+    
+    }
+
 }

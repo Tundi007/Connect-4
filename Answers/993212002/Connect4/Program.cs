@@ -1,12 +1,12 @@
-﻿namespace Connect4;
+﻿using MathNet.Numerics.LinearAlgebra;
+
+namespace Connect4;
 
 class Program
 {
 
-    private static int PID_Int = 1;
-
     static void Main(string[] args)
-    {
+    {     
 
         do
         {
