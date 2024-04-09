@@ -40,7 +40,7 @@ public class MyBot
 
             copyBoard_SingleMatrix.CopyTo(appliedBoard_SingleMatrix);
 
-            appliedBoard_SingleMatrix = MyMatrix.ApplyMove_Function(appliedBoard_SingleMatrix, nextMove_Int, BID_Int);
+            MyMatrix.ApplyMove_Function(appliedBoard_SingleMatrix, nextMove_Int, BID_Int).CopyTo(appliedBoard_SingleMatrix);
 
             (int botMaxPiece_int, int playerMaxPiece_Int) = MaxPiece_Function(appliedBoard_SingleMatrix);
 
@@ -63,21 +63,27 @@ public class MyBot
 
         (int botMaxPieces_Int, int playerMaxPieces_Int) = (0, 0);
 
-        Matrix<Single> copy_SingleMatrix = Matrix<Single>.Build.Dense(5, 5, 0);
-
         for (int corner_Int = 0; corner_Int < 4; corner_Int++)
         {
 
+            Matrix<Single> copy_SingleMatrix = Matrix<Single>.Build.Dense(4, 4, 0);
+
             Matrix<Single> copy2_SingleMatrix = Matrix<Single>.Build.Dense(4, 4, 0);
 
-            appliedBoard_SingleMatrix.CopyTo(copy_SingleMatrix);
+            MyMatrix.FourByFour_Function(appliedBoard_SingleMatrix, corner_Int).CopyTo(copy_SingleMatrix);
 
-            copy2_SingleMatrix = MyMatrix.FourByFour_Function(copy_SingleMatrix, corner_Int);
+            copy_SingleMatrix.CopyTo(copy2_SingleMatrix);
 
             for (int index_Int = 0; index_Int < 4; index_Int++)
-            {
+            {                
 
-                copy2_SingleMatrix.Column(index_Int).TakeWhile(x => x == BID_Int);
+                copy2_SingleMatrix.Column(index_Int).TakeWhile(x => x == BID_Int).Count();
+
+                if(false);
+
+                copy2_SingleMatrix.Row(index_Int).TakeWhile(x => x == PID_Int).Count();
+
+
 
             }
 
@@ -91,23 +97,6 @@ public class MyBot
     {
 
         int playerMaxPoint_Int = -5;
-
-        for (int nextMove_Int = 0; nextMove_Int < 4; nextMove_Int++)
-        {
-
-            Matrix<Single> copy_SingleMatrix = Matrix<Single>.Build.Dense(5, 5, 0);
-
-            appliedBoard_SingleMatrix.CopyTo(copy_SingleMatrix);
-
-            (int tempBotMaxPiece_int, int tempPlayerMaxPiece_int) =
-                MaxPiece_Function
-                    (MyMatrix.ApplyMove_Function(copy_SingleMatrix, nextMove_Int, PID_Int));
-
-            int tempPlayerMaxPoint_int = tempPlayerMaxPiece_int - tempBotMaxPiece_int;
-
-            if (tempPlayerMaxPoint_int > playerMaxPoint_Int) playerMaxPoint_Int = tempPlayerMaxPoint_int;
-
-        }
 
         return playerMaxPoint_Int;
 

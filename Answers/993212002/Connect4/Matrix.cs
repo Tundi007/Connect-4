@@ -46,22 +46,17 @@ public class MyMatrix
     public static Matrix<Single> ApplyMove_Function(Matrix<Single> matrix_SingleMatrix, int nextMove_Int, int ID_Int)
     {
 
-        if (!Eligibility_Function(matrix_SingleMatrix, nextMove_Int)) return Matrix<Single>.Build.Dense(1, 1, -1);
+        if (!matrix_SingleMatrix.Column(nextMove_Int).Contains(0)) return Matrix<Single>.Build.Dense(1, 1, -1);
+
+        Matrix<Single> outputMatrix_SingleMatrix = Matrix<Single>.Build.Dense(5,5,0);
+
+        matrix_SingleMatrix.CopyTo(outputMatrix_SingleMatrix);
 
         int indexOfNextMove_Int = matrix_SingleMatrix.Column(nextMove_Int).ToList().IndexOf(0);
 
-        matrix_SingleMatrix[indexOfNextMove_Int, nextMove_Int] = ID_Int;
+        outputMatrix_SingleMatrix[indexOfNextMove_Int, nextMove_Int] = ID_Int;
 
-        return matrix_SingleMatrix;
-
-    }
-
-    private static bool Eligibility_Function(Matrix<Single> matrix_SingleMatrix, int nextMove_Int)
-    {
-
-        if (matrix_SingleMatrix.Column(nextMove_Int).Contains(0)) return true;
-
-        return false;
+        return outputMatrix_SingleMatrix;
 
     }
 
@@ -70,13 +65,13 @@ public class MyMatrix
 
         Matrix<Single> fourByFour_SingleMatrix = Matrix<Single>.Build.Dense(4, 4, 0);
 
-        if (corner_Int == 0) fourByFour_SingleMatrix = matrix_SingleMatrix.SubMatrix(0, 4, 0, 4);
+        if (corner_Int == 0) matrix_SingleMatrix.SubMatrix(0, 4, 0, 4).CopyTo(fourByFour_SingleMatrix);
 
-        if (corner_Int == 1) fourByFour_SingleMatrix = matrix_SingleMatrix.SubMatrix(0, 4, 1, 4);
+        if (corner_Int == 1) matrix_SingleMatrix.SubMatrix(0, 4, 1, 4).CopyTo(fourByFour_SingleMatrix);
 
-        if (corner_Int == 2) fourByFour_SingleMatrix = matrix_SingleMatrix.SubMatrix(1, 4, 1, 4);
+        if (corner_Int == 2) matrix_SingleMatrix.SubMatrix(1, 4, 1, 4).CopyTo(fourByFour_SingleMatrix);
 
-        if (corner_Int == 3) fourByFour_SingleMatrix = matrix_SingleMatrix.SubMatrix(1, 4, 0, 4);
+        if (corner_Int == 3) matrix_SingleMatrix.SubMatrix(1, 4, 0, 4).CopyTo(fourByFour_SingleMatrix);
 
         return fourByFour_SingleMatrix;
 
