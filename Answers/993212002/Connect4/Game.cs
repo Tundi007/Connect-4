@@ -1,4 +1,3 @@
-using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace Connect4;
@@ -98,7 +97,7 @@ class Game
 
     }
 
-    public static void Game_Function()
+    private static void Game_Function()
     {
 
         GameBoard.GameBoardReset_Function();
@@ -119,15 +118,12 @@ class Game
 
                 if (elementColumn_Int == -1) PrematureExit_Function();
 
-                if(GameBoard.ElementValidColumn_Function(
-                    GameBoard.GameBoardStatus_Function(), elementColumn_Int, out int elementRow_Int ))
-                    if(GameBoard.ElementPlace_Function(elementRow_Int, elementColumn_Int, player_Int)) break;
+                if(Action_Function(elementColumn_Int, player_Int))
+                    break;
 
                 error_String = $"Can't Place There (Column: {elementColumn_Int + 1})";
 
             }
-
-            Console.ReadKey();
 
             if(CheckGoal_Function(out int winner_int))
             {
@@ -136,11 +132,46 @@ class Game
 
                 if(winner_int == bot_Int) System.Console.WriteLine("You Lost, Better Luck Next Time!");
 
+                System.Console.WriteLine("Press Anything To Continue");
+
+                Console.ReadKey();
+
                 gameOver_Bool = true;
 
             }
 
+            Action_Function(Bot.Bot_Function(bot_Int, player_Int), bot_Int);
+
+            if(!gameOver_Bool & CheckGoal_Function(out int winner2_int))
+            {
+
+                if(winner2_int == player_Int) System.Console.WriteLine("Congrats, You Won!");
+
+                if(winner2_int == bot_Int) System.Console.WriteLine("You Lost, Better Luck Next Time!");
+
+                System.Console.WriteLine("Press Anything To Continue");
+
+                Console.ReadKey();
+
+                gameOver_Bool = true;
+
+            }
+
+            Console.ReadKey();
+
         }
+    
+    }
+
+    private static bool Action_Function(int elementColumn_Int, int ID_Int)
+    {
+
+        if(GameBoard.ElementValidColumn_Function(
+            GameBoard.GameBoardStatus_Function(), elementColumn_Int, out int elementRow_Int ))
+            if(GameBoard.ElementPlace_Function(elementRow_Int, elementColumn_Int, ID_Int))
+                return true;
+
+        return false;
     
     }
     
