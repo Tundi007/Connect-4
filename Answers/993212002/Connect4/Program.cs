@@ -1,21 +1,19 @@
-﻿using MathNet.Numerics.LinearAlgebra;
+﻿namespace Connect4;
 
-namespace Connect4;
-
-class Program
+class Program2
 {
 
     static void Main(string[] args)
     {     
 
-        do
-        {
+        // do
+        // {
 
-            MyGame.SideSelect_Function();
+        //     MyGame.SideSelect_Function();
 
-            MyGame.Load_Function();
+        //     MyGame.Load_Function();
 
-        } while (MyGame.Rematch_Function());
+        // } while (MyGame.Rematch_Function());
 
     }
 
