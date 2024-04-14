@@ -1,5 +1,4 @@
 namespace Connect4;
-
 // public class MyBot2
 // {
 
@@ -191,3 +190,10 @@ namespace Connect4;
 //     }
 
 // }
+
+class Bot
+{
+
+    
+
+}

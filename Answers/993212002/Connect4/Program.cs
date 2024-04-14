@@ -6,14 +6,14 @@ class Program2
     static void Main(string[] args)
     {     
 
-        // do
-        // {
+        do
+        {
 
-        //     MyGame.SideSelect_Function();
+            Game.SideSelect_Function();
 
-        //     MyGame.Load_Function();
+            Game.Load_Function();
 
-        // } while (MyGame.Rematch_Function());
+        } while (Game.Rematch_Function());
 
     }
 

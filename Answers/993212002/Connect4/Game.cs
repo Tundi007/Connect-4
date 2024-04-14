@@ -1,230 +1,234 @@
+using MathNet.Numerics;
+using MathNet.Numerics.LinearAlgebra;
+
 namespace Connect4;
-// class MyGame2
-// {
 
-//     private static int PID_Int = 1;
+class Game
+{
 
-//     private static int BID_Int = 2;
+    private static int player_Int;
 
-//     private static string error_String = "";
+    private static int bot_Int;
 
-//     private static void PrematureExit_Function()
-//     {
+    private static string error_String = "";
+    
+    public static void SideSelect_Function()
+    {
 
-//         Console.Clear();
+        (player_Int, bot_Int) = (1, 2);
 
-//         System.Console.WriteLine("Have A Nice Day!");
+        while (!MyUI.UserInterface_Function("Select Your Side(Use Arrow Keys):", "O", "X", player_Int, out int output_Int))
+        {
 
-//         Thread.Sleep(300);
+            if (output_Int == -1) PrematureExit_Function();
 
-//         Environment.Exit(0);
+            if (output_Int == 2 | output_Int == 1) (player_Int, bot_Int) = (bot_Int, player_Int);
 
-//     }
+        }
 
-//     public static bool Rematch_Function()
-//     {
+    }
 
-//         int option_Int = 1;
+    public static void Load_Function()
+    {
 
-//         while(!MyUI.UserInterface_Function("Rematch?", "No", "Yes", option_Int, out int output_Int))
-//         {
+        System.Console.WriteLine("your side is: " + player_Int);
 
-//             option_Int = output_Int;
+        Console.ReadKey(true);
 
-//             if (option_Int == -1) PrematureExit_Function();
+        // string loading_String = "[                    ]";        
 
-//         }
+        // bool loading_Bool = true;
 
-//         if (option_Int == 2) return true;
+        // for (int loading_Int = 2; loading_Int < 23; loading_Int++)
+        // {            
 
-//         return false;
+        //     Console.Clear();            
 
-//     }
+        //     System.Console.Write("Loading");
 
-//     public static void SideSelect_Function()
-//     {
+        //     System.Console.Write(loading_String);
 
-//         while (!MyUI.UserInterface_Function("Select Your Side(Use Arrow Keys):", "O", "X", PID_Int, out int output_Int))
-//         {
+        //     if(loading_Int == 22)System.Console.WriteLine("100%");
+        //     else System.Console.WriteLine((int)((double)loading_Int/23*100)+"%");
 
-//             if (output_Int == -1) PrematureExit_Function();
+        //     loading_String = loading_String[..(loading_Int-1)] + "-" + loading_String[(loading_Int)..];
 
-//             if (output_Int == 2) (PID_Int, BID_Int) = (BID_Int, PID_Int);
+        //     if(loading_Int == 4)Thread.Sleep(200);
 
-//             if (output_Int == 1) (PID_Int, BID_Int) = (BID_Int, PID_Int);
+        //     if(loading_Bool)
+        //     {
 
-//         }
+        //         if(loading_Int%1==0)Thread.Sleep(1);
 
-//         MyBot2.IDInit_Function(PID_Int, BID_Int);
+        //         if(loading_Int%3==0)Thread.Sleep(30);
 
-//     }
+        //         if(loading_Int%5==0)Thread.Sleep(100);
 
-//     public static void Load_Function()
-//     {
+        //         if(loading_Int%6==0)Thread.Sleep(200);
 
-//         System.Console.WriteLine("your side is: " + PID_Int);
+        //         if(loading_Int%7==0)Thread.Sleep(300);
 
-//         Console.ReadKey(true);
+        //         if(loading_Int%10==0)
+        //         {
 
-//         // string loading_String = "[                    ]";        
+        //             Thread.Sleep(400);
 
-//         // bool loading_Bool = true;
+        //             loading_Bool = false;
 
-//         // for (int loading_Int = 2; loading_Int < 23; loading_Int++)
-//         // {            
+        //         }
 
-//         //     Console.Clear();            
+        //     }else Thread.Sleep(5);
 
-//         //     System.Console.Write("Loading");
+        // }
 
-//         //     System.Console.Write(loading_String);
+        // for (int loading_Int = 3; loading_Int > 0; loading_Int--)
+        // {
 
-//         //     if(loading_Int == 22)System.Console.WriteLine("100%");
-//         //     else System.Console.WriteLine((int)((double)loading_Int/23*100)+"%");
+        //     System.Console.WriteLine("Game Starting In " + loading_Int + "...");
 
-//         //     loading_String = loading_String[..(loading_Int-1)] + "-" + loading_String[(loading_Int)..];
+        //     Thread.Sleep(900);
 
-//         //     if(loading_Int == 4)Thread.Sleep(200);
+        // }
 
-//         //     if(loading_Bool)
-//         //     {
+        // Thread.Sleep(300);
 
-//         //         if(loading_Int%1==0)Thread.Sleep(1);
+        // Console.Clear();
 
-//         //         if(loading_Int%3==0)Thread.Sleep(30);
+        Game_Function();
 
-//         //         if(loading_Int%5==0)Thread.Sleep(100);
+    }
 
-//         //         if(loading_Int%6==0)Thread.Sleep(200);
+    public static void Game_Function()
+    {
 
-//         //         if(loading_Int%7==0)Thread.Sleep(300);
+        GameBoard.GameBoardReset_Function();
+    
+        error_String = "";
 
-//         //         if(loading_Int%10==0)
-//         //         {
+        bool gameOver_Bool = false;
 
-//         //             Thread.Sleep(400);
+        while (!gameOver_Bool)
+        {
 
-//         //             loading_Bool = false;
+            while (true)
+            {
 
-//         //         }
+                int elementColumn_Int = MyUI.GameInterface_Function(error_String, GameBoard.GameBoardStatus_Function());
 
-//         //     }else Thread.Sleep(5);
+                error_String = "";
 
-//         // }
+                if (elementColumn_Int == -1) PrematureExit_Function();
 
-//         // for (int loading_Int = 3; loading_Int > 0; loading_Int--)
-//         // {
+                if(GameBoard.ElementValidColumn_Function(
+                    GameBoard.GameBoardStatus_Function(), elementColumn_Int, out int elementRow_Int ))
+                    if(GameBoard.ElementPlace_Function(elementRow_Int, elementColumn_Int, player_Int)) break;
 
-//         //     System.Console.WriteLine("Game Starting In " + loading_Int + "...");
+                error_String = $"Can't Place There (Column: {elementColumn_Int + 1})";
 
-//         //     Thread.Sleep(900);
+            }
 
-//         // }
+            Console.ReadKey();
 
-//         // Thread.Sleep(300);
+            if(CheckGoal_Function(out int winner_int))
+            {
 
-//         // Console.Clear();
+                if(winner_int == player_Int) System.Console.WriteLine("Congrats, You Won!");
 
-//         Game_Function();
+                if(winner_int == bot_Int) System.Console.WriteLine("You Lost, Better Luck Next Time!");
 
-//     }
+                gameOver_Bool = true;
 
-//     private static void Game_Function()
-//     {
+            }
 
-//         MyMatrix2 gameBoard_MyMatrix = new();
+        }
+    
+    }
+    
+    private static bool CheckGoal_Function(out int winner_int)
+    {
 
-//         error_String = "";
+        winner_int = -1;
 
-//         bool gameOver_Bool = false;
+        for (int corner_Int = 0; corner_Int < 4; corner_Int++)
+        {
 
-//         while (!gameOver_Bool)
-//         {
+            GameBoard.SubMatrix_Function(GameBoard.GameBoardStatus_Function(),
+                corner_Int, out Matrix<float> fourByFour_SingleMatrix);
 
-//             while (true)
-//             {
+            for (int ID_Int = 1; ID_Int < 3; ID_Int++)
+            {
 
-//                 int nextMove_Int = MyUI.GameInterface_Function(error_String, gameBoard_MyMatrix.GetMatrix_Function());
+                if(fourByFour_SingleMatrix.Diagonal().All(x => x == ID_Int))
+                {
 
-//                 error_String = "";
+                    winner_int = ID_Int;
 
-//                 if (nextMove_Int == -1) PrematureExit_Function();
+                    return true;
 
-//                 if (gameBoard_MyMatrix.ApplyMove_Function(nextMove_Int, PID_Int)) break;
+                }
 
-//                 error_String = $"Can't Place There (Column: {nextMove_Int + 1})";
+                for (int index_Int = 0; index_Int < 4; index_Int++)
+                {
 
-//             }
+                    if(fourByFour_SingleMatrix.Row(index_Int).All(x => x == ID_Int))
+                    {
 
-//             System.Console.WriteLine("Hi");
+                        winner_int = ID_Int;
 
-//             gameBoard_MyMatrix.ApplyMove_Function(MyBot2.Bot_Function(gameBoard_MyMatrix.GetMatrix_Function()), BID_Int);
+                        return true;
 
-//             System.Console.WriteLine("Bye");
+                    }
 
-//             int winnder_Int = CheckGoal_Function(gameBoard_MyMatrix.GetMatrix_Function());
+                    if(fourByFour_SingleMatrix.Column(index_Int).All(x => x == ID_Int))
+                    {
 
-//             if (winnder_Int == PID_Int)
-//             {
-                
-//                 Console.WriteLine("You Won!");
-                
-//                 gameOver_Bool = true;
-                
-//             }
+                        winner_int = ID_Int;
 
-//             if (winnder_Int == BID_Int)
-//             {
-                
-//                 Console.WriteLine("Game Over!");
-                
-//                 gameOver_Bool = true;
-                
-//             }
+                        return true;
 
-//             Console.ReadKey();
+                    }
+                    
+                }
 
-//         }
+            }
 
-//     }
+        }
 
-//     private static int CheckGoal_Function(Matrix<Single> matrix_SingleMatrix)
-//     {
+        return false;
 
-//         Matrix<Single> fourByFour_SingleMatrix = Matrix<Single>.Build.Dense(4, 4, 0);
+    }
 
-//         for (int corner_Int = 0; corner_Int < 4; corner_Int++)
-//         {
+    private static void PrematureExit_Function()
+    {
 
-//             fourByFour_SingleMatrix = MyMatrix2.FourByFour_Function(matrix_SingleMatrix, corner_Int);
+        Console.Clear();
 
-//             if (fourByFour_SingleMatrix.Diagonal().All(x => x == PID_Int))
-//                 return PID_Int;
+        System.Console.WriteLine("Have A Nice Day!");
 
-//             if (fourByFour_SingleMatrix.Diagonal().All(x => x == BID_Int))
-//                 return BID_Int;
+        Thread.Sleep(300);
 
-//             for (int indexFor_Int = 0; indexFor_Int < 4; indexFor_Int++)
-//             {
+        Environment.Exit(0);
 
-//                 if (fourByFour_SingleMatrix.Column(indexFor_Int).All(x => x == PID_Int))
-//                     return PID_Int;
+    }
 
-//                 if (fourByFour_SingleMatrix.Row(indexFor_Int).All(x => x == PID_Int))
-//                     return PID_Int;
+    public static bool Rematch_Function()
+    {
 
-//                 if (fourByFour_SingleMatrix.Column(indexFor_Int).All(x => x == BID_Int))
-//                     return BID_Int;
+        int option_Int = 1;
 
-//                 if (fourByFour_SingleMatrix.Row(indexFor_Int).All(x => x == BID_Int))
-//                     return BID_Int;
+        while(!MyUI.UserInterface_Function("Rematch?", "No", "Yes", option_Int, out int output_Int))
+        {
 
-//             }
+            option_Int = output_Int;
 
-//         }
+            if (option_Int == -1) PrematureExit_Function();
 
-//         return 0;
+        }
 
-//     }
+        if (option_Int == 2) return true;
 
-// }
+        return false;
+
+    }
+
+}
