@@ -30,10 +30,6 @@ class Game
     public static void Load_Function()
     {
 
-        System.Console.WriteLine("your side is: " + player_Int);
-
-        Console.ReadKey(true);
-
         // string loading_String = "[                    ]";        
 
         // bool loading_Bool = true;
@@ -91,7 +87,7 @@ class Game
 
         // Thread.Sleep(300);
 
-        // Console.Clear();
+        Console.Clear();
 
         Game_Function();
 
@@ -104,9 +100,7 @@ class Game
     
         error_String = "";
 
-        bool gameOver_Bool = false;
-
-        while (!gameOver_Bool)
+        while (true)
         {
 
             while (true)
@@ -124,40 +118,14 @@ class Game
                 error_String = $"Can't Place There (Column: {elementColumn_Int + 1})";
 
             }
-
-            if(CheckGoal_Function(out int winner_int))
-            {
-
-                if(winner_int == player_Int) System.Console.WriteLine("Congrats, You Won!");
-
-                if(winner_int == bot_Int) System.Console.WriteLine("You Lost, Better Luck Next Time!");
-
-                System.Console.WriteLine("Press Anything To Continue");
-
-                Console.ReadKey();
-
-                gameOver_Bool = true;
-
-            }
+            
+            if(CheckGoal_Function())
+                break;
 
             Action_Function(Bot.Bot_Function(bot_Int, player_Int), bot_Int);
 
-            if(!gameOver_Bool & CheckGoal_Function(out int winner2_int))
-            {
-
-                if(winner2_int == player_Int) System.Console.WriteLine("Congrats, You Won!");
-
-                if(winner2_int == bot_Int) System.Console.WriteLine("You Lost, Better Luck Next Time!");
-
-                System.Console.WriteLine("Press Anything To Continue");
-
-                Console.ReadKey();
-
-                gameOver_Bool = true;
-
-            }
-
-            Console.ReadKey();
+            if(CheckGoal_Function())
+                break;
 
         }
     
@@ -165,7 +133,7 @@ class Game
 
     private static bool Action_Function(int elementColumn_Int, int ID_Int)
     {
-
+        
         if(GameBoard.ElementValidColumn_Function(
             GameBoard.GameBoardStatus_Function(), elementColumn_Int, out int elementRow_Int ))
             if(GameBoard.ElementPlace_Function(elementRow_Int, elementColumn_Int, ID_Int))
@@ -175,13 +143,16 @@ class Game
     
     }
     
-    private static bool CheckGoal_Function(out int winner_int)
+    private static bool CheckGoal_Function()
     {
 
-        winner_int = -1;
+        int winner_int = -1;
 
         for (int corner_Int = 0; corner_Int < 4; corner_Int++)
         {
+
+            if(winner_int == bot_Int | winner_int == player_Int)
+                break;
 
             GameBoard.SubMatrix_Function(GameBoard.GameBoardStatus_Function(),
                 corner_Int, out Matrix<float> fourByFour_SingleMatrix);
@@ -189,33 +160,33 @@ class Game
             for (int ID_Int = 1; ID_Int < 3; ID_Int++)
             {
 
-                if(fourByFour_SingleMatrix.Diagonal().All(x => x == ID_Int))
+                if(fourByFour_SingleMatrix.Diagonal().ToList().All(x => x == ID_Int))
                 {
 
                     winner_int = ID_Int;
 
-                    return true;
+                    break;
 
                 }
 
                 for (int index_Int = 0; index_Int < 4; index_Int++)
                 {
 
-                    if(fourByFour_SingleMatrix.Row(index_Int).All(x => x == ID_Int))
+                    if(fourByFour_SingleMatrix.Row(index_Int).ToList().All(x => x == ID_Int))
                     {
 
                         winner_int = ID_Int;
 
-                        return true;
+                        break;
 
                     }
 
-                    if(fourByFour_SingleMatrix.Column(index_Int).All(x => x == ID_Int))
+                    if(fourByFour_SingleMatrix.Column(index_Int).ToList().All(x => x == ID_Int))
                     {
 
                         winner_int = ID_Int;
 
-                        return true;
+                        break;
 
                     }
                     
@@ -223,6 +194,64 @@ class Game
 
             }
 
+        }
+
+        if(GameBoard.GameBoardStatus_Function().Find(x => x == 0) == null & winner_int != player_Int & winner_int != bot_Int)
+        {
+
+            winner_int = 3;
+
+        }
+
+        if(winner_int == player_Int)
+        {
+
+            Console.Clear();
+            
+            System.Console.Write("Congrats, You Won!");
+
+            MyUI.ShowMenu_Function(GameBoard.GameBoardStatus_Function(), -1);
+
+            System.Console.WriteLine("Press Anything To Continue");
+
+            Console.ReadKey();
+
+            return true;
+            
+        }
+
+        if(winner_int == bot_Int)
+        {
+
+            Console.Clear();
+
+            System.Console.Write("You Lost, Better Luck Next Time!");
+
+            MyUI.ShowMenu_Function(GameBoard.GameBoardStatus_Function(), -1);
+
+            System.Console.WriteLine("Press Anything To Continue");
+
+            Console.ReadKey();
+
+            return true;
+        
+        }
+
+        if(winner_int == 3)
+        {
+
+            Console.Clear();
+            
+            System.Console.Write("Tied, Game Over!");
+
+            MyUI.ShowMenu_Function(GameBoard.GameBoardStatus_Function(), -1);
+
+            System.Console.WriteLine("Press Anything To Continue");
+
+            Console.ReadKey();
+
+            return true;
+        
         }
 
         return false;

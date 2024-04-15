@@ -116,7 +116,7 @@ class MyUI
 
     }
 
-    private static void ShowMenu_Function(Matrix<Single> menuItems_ArrayString2D, int menuPointerColumn_Int)
+    public static void ShowMenu_Function(Matrix<Single> menuItems_ArrayString2D, int menuPointerColumn_Int)
     {
 
         System.Console.WriteLine();

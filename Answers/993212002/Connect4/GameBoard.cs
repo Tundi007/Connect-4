@@ -9,7 +9,7 @@ class GameBoard
     public static void GameBoardReset_Function()
     {
     
-        gameBoard_FloatMatrix = Matrix<float>.Build.Dense(5,5,0);
+        Matrix<float>.Build.Dense(5,5,0).CopyTo(gameBoard_FloatMatrix);
     
     }
 
@@ -41,21 +41,19 @@ class GameBoard
 
         output_Int = -1;
 
-        bool success_Bool = false;
-
-        if(column_Int < 0 & column_Int > 4)
-        return success_Bool;
+        if(column_Int < 0 & column_Int >= matrix_FloatMatrix.Column(0).Count)
+            return false;
 
         if(matrix_FloatMatrix.Column(column_Int).Contains(0))
         {
-
-            success_Bool = true;
             
             output_Int = matrix_FloatMatrix.Column(column_Int).ToList().IndexOf(0);
 
+            return true;
+
         }
 
-        return success_Bool;
+        return false;
     
     }
 

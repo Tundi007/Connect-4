@@ -1,8 +1,18 @@
+using System.Security.Cryptography;
 using MathNet.Numerics.LinearAlgebra;
 namespace Connect4;
 
 class Bot
 {
+
+    private static int botDifficulty_Int = 0;
+
+    public static void BotDifficulty_Function(int difficulty_Int)
+    {
+
+        botDifficulty_Int = difficulty_Int;
+
+    }
 
     public static int Bot_Function(int botID_Int, int playerID_Int)
     {
@@ -11,7 +21,7 @@ class Bot
 
         int bestMoveCost_Int = 0;
 
-        int bestNextMove_Int = -1;
+        int bestNextMove_Int = 0;
 
         for (int elementColumn_Int = 0; elementColumn_Int < 5; elementColumn_Int++)
         {
@@ -32,7 +42,7 @@ class Bot
 
                 botBoard_FloatMatrix.SetColumn(elementColumn_Int,elementVector_FloatVector);
 
-                minMax_IntArray2D[elementColumn_Int][1] = Max_Function(botBoard_FloatMatrix, botID_Int, playerID_Int) + 3;
+                minMax_IntArray2D[elementColumn_Int][1] = Max_Function(botBoard_FloatMatrix, botID_Int, playerID_Int) + 1;
 
                 for (int playerColumn_Int = 0; playerColumn_Int < 5; playerColumn_Int++)
                 {
@@ -42,30 +52,13 @@ class Bot
 
                         Matrix<float> playerBoard_FloatMatrix = Matrix<float>.Build.DenseOfMatrix(botBoard_FloatMatrix);
 
-                        Vector<float> playerVector_FloatVector = Vector<float>.Build.Dense(5);
-
-                        botBoard_FloatMatrix.
-                            Column(playerColumn_Int).CopyTo(playerVector_FloatVector);
+                        Vector<float> playerVector_FloatVector = botBoard_FloatMatrix.Column(playerColumn_Int);
 
                         playerVector_FloatVector[playerRow_Int] = playerID_Int;
 
                         playerBoard_FloatMatrix.SetColumn(playerColumn_Int, playerVector_FloatVector);
-
-                        // System.Console.WriteLine();
-
-                        // System.Console.WriteLine(GameBoard.GameBoardStatus_Function());
-
-                        // System.Console.WriteLine(botBoard_FloatMatrix);
-
-                        // System.Console.WriteLine(playerBoard_FloatMatrix);
-
-                        // System.Console.WriteLine();
-
-                        // Console.ReadKey();
-
-                        // Console.Clear();
                         
-                        int min_Int = Max_Function(playerBoard_FloatMatrix, playerID_Int, botID_Int);
+                        int min_Int = Max_Function(playerBoard_FloatMatrix, playerID_Int, botID_Int) + 1;
 
                         if(minMax_IntArray2D[elementColumn_Int][0] < min_Int)
                             minMax_IntArray2D[elementColumn_Int][0] = min_Int;
@@ -81,11 +74,18 @@ class Bot
         for (int index_Int = 0; index_Int < 5; index_Int++)
         {
 
-            if(bestMoveCost_Int < (minMax_IntArray2D[index_Int][1] - minMax_IntArray2D[index_Int][0]))
-            {                
-
-                System.Console.WriteLine($"bot's move{minMax_IntArray2D[index_Int][1]} | player best move:{minMax_IntArray2D[index_Int][0]} | cost:{minMax_IntArray2D[index_Int][1] - minMax_IntArray2D[index_Int][0]}");
+            if(botDifficulty_Int == 1){
                 
+                if(minMax_IntArray2D[index_Int][1] == 4)
+                    minMax_IntArray2D[index_Int][1] += 3;
+                else if(minMax_IntArray2D[index_Int][0] == 4)
+                    minMax_IntArray2D[index_Int][0] += 3;
+                
+            }
+
+            if(bestMoveCost_Int < (minMax_IntArray2D[index_Int][1] - minMax_IntArray2D[index_Int][0]))
+            {      
+
                 bestNextMove_Int = index_Int;
 
                 bestMoveCost_Int = minMax_IntArray2D[index_Int][1] - minMax_IntArray2D[index_Int][0];
@@ -147,10 +147,18 @@ class Bot
 
         int highestCount_Int = 0;
 
+        if(botDifficulty_Int == 1 & list_FloatList.FindAll(x => x == elementSkip_Int).Count > 1)
+            return -1;
+
         while(list_FloatList.Count > 1)
         {
 
-            list_FloatList = list_FloatList.SkipWhile(x => x == 0 | x == elementSkip_Int).ToList();
+            if(botDifficulty_Int == 1 &
+                (list_FloatList.Count < 2 |
+                    ((_ = list_FloatList.TakeWhile(x => x == 0 || x == elementID_Int)).Count() < 4 & list_FloatList.Count<4)))
+                break;
+
+            list_FloatList = list_FloatList.SkipWhile(x => x == 0 || x == elementSkip_Int).ToList();
 
             int temp_Int = list_FloatList.TakeWhile(x => x == elementID_Int).Count();
 
