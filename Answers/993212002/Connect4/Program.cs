@@ -9,11 +9,15 @@ class Program2
         do
         {
 
-            Game.SideSelect_Function();
-
             Game.Load_Function();
 
-        } while (Game.Rematch_Function());
+        }while(Game.Rematch_Function());
+
+        Console.Clear();
+
+        System.Console.WriteLine("Have A Nice Day!");
+
+        Thread.Sleep(300);
 
     }
 

@@ -64,7 +64,7 @@ class GameBoard
 
         int rowIndex_Int;
 
-        output_FloatMatrix = Matrix<float>.Build.Dense(4,4,-1);
+        output_FloatMatrix = Matrix<float>.Build.Dense(4,4);
 
         switch (subCorner_Int)
         {
