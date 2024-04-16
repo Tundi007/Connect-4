@@ -41,7 +41,7 @@ class GameBoard
 
         output_Int = -1;
 
-        if(column_Int < 0 & column_Int >= matrix_FloatMatrix.Column(0).Count)
+        if(column_Int < 0 & column_Int >= matrix_FloatMatrix.Column(column_Int).Count)
             return false;
 
         if(matrix_FloatMatrix.Column(column_Int).Contains(0))

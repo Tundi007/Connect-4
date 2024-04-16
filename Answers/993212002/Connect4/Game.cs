@@ -40,26 +40,14 @@ class Game
 
         }
 
-        pointer_Bool = false;
-
-        if(singlePlayer_Bool)
-            while(!MyUI.UserInterface_Function("Who Goes First? (Use Up/Down Arrow Keys, Escape To Exit):", "You", "Bot", pointer_Bool,out bool valid_Bool, out bool exit_Bool))
-            {
-
-                if(exit_Bool)
-                    PrematureExit_Function();
-
-                if(valid_Bool)
-                    (botFirst_Bool, pointer_Bool) = (!botFirst_Bool, !pointer_Bool);
-
-            }
-
     }
 
     private static void GameMode_Function()
     {
 
         bool pointer_Bool = false;
+
+        bool botConfig_Bool = false;
 
         while(!MyUI.UserInterface_Function("Select Game Mode (Use Up/Down Arrow Keys, Escape To Exit):", "PvE (Single Player)", "PvP (Couch Play)", pointer_Bool,out bool valid_Bool, out bool exit_Bool))
         {
@@ -72,6 +60,22 @@ class Game
 
         }
 
+        pointer_Bool = false;
+
+        while(!MyUI.UserInterface_Function("Game Configurations (Use Up/Down Arrow Keys, Escape To Exit):", "Default", "Options", pointer_Bool,out bool valid_Bool, out bool exit_Bool))
+        {
+
+            if(exit_Bool)
+                PrematureExit_Function();
+
+            if(valid_Bool)
+                (botConfig_Bool, pointer_Bool) = (!botConfig_Bool, !pointer_Bool);
+
+        }
+
+        if(botConfig_Bool)
+            BotDifficulty_Function();
+
     }
 
     private static void BotDifficulty_Function()
@@ -83,7 +87,7 @@ class Game
 
         bool dumbBot_Bool = false;
 
-        while (!MyUI.UserInterface_Function($"Select Opponent Type:", "Normal", "Advanced", pointer_Bool, out bool valid_Bool, out bool exit_Bool))
+        while (!MyUI.UserInterface_Function($"Select Bot Configuration:", "Stock", "Upgraded", pointer_Bool, out bool valid_Bool, out bool exit_Bool))
         {            
 
             if (exit_Bool) Game.PrematureExit_Function();
@@ -104,6 +108,20 @@ class Game
                 (dumbBot_Bool,pointer_Bool) = (!dumbBot_Bool,!pointer_Bool);
 
         }
+
+        pointer_Bool = false;
+
+        if(singlePlayer_Bool)
+            while(!MyUI.UserInterface_Function("Who Goes First? (Use Up/Down Arrow Keys, Escape To Exit):", "You", "Bot", pointer_Bool,out bool valid_Bool, out bool exit_Bool))
+            {
+
+                if(exit_Bool)
+                    PrematureExit_Function();
+
+                if(valid_Bool)
+                    (botFirst_Bool, pointer_Bool) = (!botFirst_Bool, !pointer_Bool);
+
+            }
 
         botInfo_String = Bot.BotSet_Function(botDifficulty_Bool, dumbBot_Bool,player1_Int, player2_Int);
     
@@ -126,69 +144,66 @@ class Game
 
         botInfo_String = "";
 
-        // string loading_String = "[                    ]";        
+        string loading_String = "[                    ]";
 
-        // bool loading_Bool = true;
+        bool loading_Bool = true;
 
-        // for (int loading_Int = 2; loading_Int < 23; loading_Int++)
-        // {            
+        for (int loading_Int = 2; loading_Int < 23; loading_Int++)
+        {            
 
-        //     Console.Clear();            
+            Console.Clear();            
 
-        //     System.Console.Write("Loading");
+            System.Console.Write("Loading");
 
-        //     System.Console.Write(loading_String);
+            System.Console.Write(loading_String);
 
-        //     if(loading_Int == 22)System.Console.WriteLine("100%");
-        //     else System.Console.WriteLine((int)((double)loading_Int/23*100)+"%");
+            if(loading_Int == 22)System.Console.WriteLine("100%");
+            else System.Console.WriteLine((int)((double)loading_Int/23*100)+"%");
 
-        //     loading_String = loading_String[..(loading_Int-1)] + "-" + loading_String[(loading_Int)..];
+            loading_String = loading_String[..(loading_Int-1)] + "-" + loading_String[(loading_Int)..];
 
-        //     if(loading_Int == 4)Thread.Sleep(200);
+            if(loading_Int == 4)Thread.Sleep(200);
 
-        //     if(loading_Bool)
-        //     {
+            if(loading_Bool)
+            {
 
-        //         if(loading_Int%1==0)Thread.Sleep(1);
+                if(loading_Int%1==0)Thread.Sleep(1);
 
-        //         if(loading_Int%3==0)Thread.Sleep(30);
+                if(loading_Int%3==0)Thread.Sleep(30);
 
-        //         if(loading_Int%5==0)Thread.Sleep(100);
+                if(loading_Int%5==0)Thread.Sleep(100);
 
-        //         if(loading_Int%6==0)Thread.Sleep(200);
+                if(loading_Int%6==0)Thread.Sleep(200);
 
-        //         if(loading_Int%7==0)Thread.Sleep(300);
+                if(loading_Int%7==0)Thread.Sleep(300);
 
-        //         if(loading_Int%10==0)
-        //         {
+                if(loading_Int%10==0)
+                {
 
-        //             Thread.Sleep(400);
+                    Thread.Sleep(400);
 
-        //             loading_Bool = false;
+                    loading_Bool = false;
 
-        //         }
+                }
 
-        //     }else Thread.Sleep(5);
+            }else Thread.Sleep(5);
 
-        // }
+        }
 
-        // for (int loading_Int = 3; loading_Int > 0; loading_Int--)
-        // {
+        for (int loading_Int = 3; loading_Int > 0; loading_Int--)
+        {
 
-        //     System.Console.WriteLine("Game Starting In " + loading_Int + "...");
+            System.Console.WriteLine("Game Starting In " + loading_Int + "...");
 
-        //     Thread.Sleep(900);
+            Thread.Sleep(900);
 
-        // }
+        }
 
-        // Thread.Sleep(200);
+        Thread.Sleep(200);
 
         Console.Clear();
 
         GameMode_Function();
-
-        if(singlePlayer_Bool)
-            BotDifficulty_Function();
 
         SideSelect_Function();
 
@@ -279,7 +294,7 @@ class Game
     {
         
         if(GameBoard.ElementValidColumn_Function(
-            GameBoard.GameBoardStatus_Function(), elementColumn_Int, out int elementRow_Int ))
+            GameBoard.GameBoardStatus_Function(), elementColumn_Int, out int elementRow_Int))
             if(GameBoard.ElementPlace_Function(elementRow_Int, elementColumn_Int, ID_Int))
                 return true;
 
