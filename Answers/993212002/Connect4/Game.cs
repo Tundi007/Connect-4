@@ -15,6 +15,8 @@ class Game
 
     private static bool singlePlayer_Bool = true;
 
+    public static bool sameRules_Bool = false;
+
     private static string error_String = "";
 
     private static string botInfo_String = "";
@@ -75,129 +77,149 @@ class Game
         }
 
         if(botConfig_Bool)
-            BotDifficulty_Function();
+            BotDifficulty_Function(false);
+        else
+            BotDifficulty_Function(true);
 
     }
 
-    private static void BotDifficulty_Function()
+    private static void BotDifficulty_Function(bool sameBot_Bool)
     {
 
-        bool pointer_Bool = false;
+        if(!sameBot_Bool){
+            
+            bool pointer_Bool = false;
 
-        bool botDifficulty_Bool = false;
+            bool botDifficulty_Bool = false;
 
-        bool dumbBot_Bool = false;
+            bool dumbBot_Bool = false;
 
-        while (!MyUI.UserInterface_Function($"Select Bot Configuration:", "Stock", "Upgraded", pointer_Bool, out bool valid_Bool, out bool exit_Bool))
-        {            
+            while (!MyUI.UserInterface_Function($"Select Bot Configuration:", "Stock", "Upgraded", pointer_Bool, out bool valid_Bool, out bool exit_Bool))
+            {            
 
-            if (exit_Bool) Game.PrematureExit_Function();
-
-            if(valid_Bool)
-                (botDifficulty_Bool,pointer_Bool) = (!botDifficulty_Bool,!pointer_Bool);
-
-        }
-
-        pointer_Bool = false;
-
-        while (!MyUI.UserInterface_Function($"Enable Clumsy Bot? (Bot Might Get Dumb)", "No", "Yes", pointer_Bool, out bool valid_Bool, out bool exit_Bool))
-        {            
-
-            if (exit_Bool) Game.PrematureExit_Function();
-
-            if(valid_Bool)
-                (dumbBot_Bool,pointer_Bool) = (!dumbBot_Bool,!pointer_Bool);
-
-        }
-
-        pointer_Bool = false;
-
-        if(singlePlayer_Bool)
-            while(!MyUI.UserInterface_Function("Who Goes First? (Use Up/Down Arrow Keys, Escape To Exit):", "You", "Bot", pointer_Bool,out bool valid_Bool, out bool exit_Bool))
-            {
-
-                if(exit_Bool)
-                    PrematureExit_Function();
+                if (exit_Bool) Game.PrematureExit_Function();
 
                 if(valid_Bool)
-                    (botFirst_Bool, pointer_Bool) = (!botFirst_Bool, !pointer_Bool);
+                    (botDifficulty_Bool,pointer_Bool) = (!botDifficulty_Bool,!pointer_Bool);
 
             }
 
-        botInfo_String = Bot.BotSet_Function(botDifficulty_Bool, dumbBot_Bool,player1_Int, player2_Int);
+            pointer_Bool = false;
+
+            while (!MyUI.UserInterface_Function($"Enable Clumsy Bot? (Bot Might Get Dumb)", "No", "Yes", pointer_Bool, out bool valid_Bool, out bool exit_Bool))
+            {            
+
+                if (exit_Bool) Game.PrematureExit_Function();
+
+                if(valid_Bool)
+                    (dumbBot_Bool,pointer_Bool) = (!dumbBot_Bool,!pointer_Bool);
+
+            }
+
+            pointer_Bool = false;
+
+            if(singlePlayer_Bool)
+                while(!MyUI.UserInterface_Function("Who Goes First? (Use Up/Down Arrow Keys, Escape To Exit):", "You", "Bot", pointer_Bool,out bool valid_Bool, out bool exit_Bool))
+                {
+
+                    if(exit_Bool)
+                        PrematureExit_Function();
+
+                    if(valid_Bool)
+                        (botFirst_Bool, pointer_Bool) = (!botFirst_Bool, !pointer_Bool);
+
+                }
+
+            botInfo_String = Bot.BotSet_Function(botDifficulty_Bool, dumbBot_Bool,player1_Int, player2_Int);
+            
+        }else
+            botInfo_String = Bot.BotSet_Function(false, false, 0, 0);
     
     }
 
     public static void Load_Function()
     {
 
-        lastColumn_Int = 0;
+        if(!sameRules_Bool){
+            
+            lastColumn_Int = 0;
 
-        player1_Int = 1;
+            player1_Int = 1;
 
-        player2_Int = 2;
+            player2_Int = 2;
 
-        botFirst_Bool = false;
+            botFirst_Bool = false;
 
-        singlePlayer_Bool = true;
+            singlePlayer_Bool = true;
+
+            botInfo_String = "";
+            
+        }
 
         error_String = "";
 
-        botInfo_String = "";
+        if(Program.initialStart_Bool)
+        {
 
-        string loading_String = "[                    ]";
+            string loading_String = "[                    ]";
 
-        bool loading_Bool = true;
+            bool loading_Bool = true;
 
-        for (int loading_Int = 2; loading_Int < 23; loading_Int++)
-        {            
+            for (int loading_Int = 2; loading_Int < 23; loading_Int++)
+            {            
 
-            Console.Clear();            
+                Console.Clear();            
 
-            System.Console.Write("Loading");
+                System.Console.Write("Loading");
 
-            System.Console.Write(loading_String);
+                System.Console.Write(loading_String);
 
-            if(loading_Int == 22)System.Console.WriteLine("100%");
-            else System.Console.WriteLine((int)((double)loading_Int/23*100)+"%");
+                if(loading_Int == 22)System.Console.WriteLine("100%");
+                else System.Console.WriteLine((int)((double)loading_Int/23*100)+"%");
 
-            loading_String = loading_String[..(loading_Int-1)] + "-" + loading_String[(loading_Int)..];
+                loading_String = loading_String[..(loading_Int-1)] + "-" + loading_String[(loading_Int)..];
 
-            if(loading_Int == 4)Thread.Sleep(200);
+                if(loading_Int == 4)Thread.Sleep(200);
 
-            if(loading_Bool)
-            {
-
-                if(loading_Int%1==0)Thread.Sleep(1);
-
-                if(loading_Int%3==0)Thread.Sleep(30);
-
-                if(loading_Int%5==0)Thread.Sleep(100);
-
-                if(loading_Int%6==0)Thread.Sleep(200);
-
-                if(loading_Int%7==0)Thread.Sleep(300);
-
-                if(loading_Int%10==0)
+                if(loading_Bool)
                 {
 
-                    Thread.Sleep(400);
+                    if(loading_Int%1==0)Thread.Sleep(1);
 
-                    loading_Bool = false;
+                    if(loading_Int%3==0)Thread.Sleep(30);
 
-                }
+                    if(loading_Int%5==0)Thread.Sleep(100);
 
-            }else Thread.Sleep(5);
+                    if(loading_Int%6==0)Thread.Sleep(200);
 
+                    if(loading_Int%7==0)Thread.Sleep(300);
+
+                    if(loading_Int%10==0)
+                    {
+
+                        Thread.Sleep(400);
+
+                        loading_Bool = false;
+
+                    }
+
+                }else Thread.Sleep(5);
+
+            }
+
+            Thread.Sleep(200);
+        
         }
-
-        Thread.Sleep(200);
 
         Console.Clear();
 
-        GameMode_Function();
+        if(!sameRules_Bool){
 
-        SideSelect_Function();
+            GameMode_Function();
+
+            SideSelect_Function();
+        
+        }
 
         Game_Function();
 
@@ -455,6 +477,26 @@ class Game
             if(valid_Bool)
                 (option_Bool,pointer_Bool) = (!option_Bool,!pointer_Bool);
 
+        }
+
+        if(option_Bool)
+        {
+
+            pointer_Bool = false;
+
+            sameRules_Bool = false;
+
+            while(!MyUI.UserInterface_Function("Select One (Use Up/Down Arrow Keys, Escape To Exit)", "New Game", "Same Game", pointer_Bool,out bool valid_Bool, out bool exit_Bool))
+            {
+
+                if(exit_Bool)
+                    PrematureExit_Function();
+
+                if(valid_Bool)
+                    (sameRules_Bool,pointer_Bool) = (!sameRules_Bool,!pointer_Bool);
+
+            }
+            
         }
 
         return option_Bool;

@@ -311,6 +311,21 @@ class Bot
 
         string botInfo_String = "Bot: ";
 
+        if((player_Int, bot_Int) == (0 , 0))
+        {
+            
+            if(upgradedBot_Bool)
+                botInfo_String += "[Advanced] ";
+            else
+                botInfo_String += "[Normal] ";
+
+            if(clumsyBot_Bool)
+                botInfo_String += "[Clumsy]";
+
+            return botInfo_String;
+
+        }
+
         playerID_Int = player_Int;
 
         botID_Int = bot_Int;
