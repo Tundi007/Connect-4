@@ -62,6 +62,7 @@ class Game
 
         pointer_Bool = false;
 
+        if(singlePlayer_Bool)
         while(!MyUI.UserInterface_Function("Game Configurations (Use Up/Down Arrow Keys, Escape To Exit):", "Default", "Options", pointer_Bool,out bool valid_Bool, out bool exit_Bool))
         {
 
@@ -187,15 +188,6 @@ class Game
                 }
 
             }else Thread.Sleep(5);
-
-        }
-
-        for (int loading_Int = 3; loading_Int > 0; loading_Int--)
-        {
-
-            System.Console.WriteLine("Game Starting In " + loading_Int + "...");
-
-            Thread.Sleep(900);
 
         }
 
