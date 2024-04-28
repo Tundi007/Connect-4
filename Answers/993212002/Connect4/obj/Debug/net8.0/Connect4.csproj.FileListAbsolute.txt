@@ -16,3 +16,21 @@ Z:\Connect-4\Answers\993212002\Connect4\obj\Debug\net8.0\refint\Connect4.dll
 Z:\Connect-4\Answers\993212002\Connect4\obj\Debug\net8.0\Connect4.pdb
 Z:\Connect-4\Answers\993212002\Connect4\obj\Debug\net8.0\Connect4.genruntimeconfig.cache
 Z:\Connect-4\Answers\993212002\Connect4\obj\Debug\net8.0\ref\Connect4.dll
+C:\Users\TundiDeLit\Desktop\New folder\Connect-4\Answers\993212002\Connect4\bin\Debug\net8.0\Connect4.exe
+C:\Users\TundiDeLit\Desktop\New folder\Connect-4\Answers\993212002\Connect4\bin\Debug\net8.0\Connect4.deps.json
+C:\Users\TundiDeLit\Desktop\New folder\Connect-4\Answers\993212002\Connect4\bin\Debug\net8.0\Connect4.runtimeconfig.json
+C:\Users\TundiDeLit\Desktop\New folder\Connect-4\Answers\993212002\Connect4\bin\Debug\net8.0\Connect4.dll
+C:\Users\TundiDeLit\Desktop\New folder\Connect-4\Answers\993212002\Connect4\bin\Debug\net8.0\Connect4.pdb
+C:\Users\TundiDeLit\Desktop\New folder\Connect-4\Answers\993212002\Connect4\bin\Debug\net8.0\MathNet.Numerics.dll
+C:\Users\TundiDeLit\Desktop\New folder\Connect-4\Answers\993212002\Connect4\obj\Debug\net8.0\Connect4.csproj.AssemblyReference.cache
+C:\Users\TundiDeLit\Desktop\New folder\Connect-4\Answers\993212002\Connect4\obj\Debug\net8.0\Connect4.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\TundiDeLit\Desktop\New folder\Connect-4\Answers\993212002\Connect4\obj\Debug\net8.0\Connect4.AssemblyInfoInputs.cache
+C:\Users\TundiDeLit\Desktop\New folder\Connect-4\Answers\993212002\Connect4\obj\Debug\net8.0\Connect4.AssemblyInfo.cs
+C:\Users\TundiDeLit\Desktop\New folder\Connect-4\Answers\993212002\Connect4\obj\Debug\net8.0\Connect4.csproj.CoreCompileInputs.cache
+C:\Users\TundiDeLit\Desktop\New folder\Connect-4\Answers\993212002\Connect4\obj\Debug\net8.0\Connect4.sourcelink.json
+C:\Users\TundiDeLit\Desktop\New folder\Connect-4\Answers\993212002\Connect4\obj\Debug\net8.0\Connect4.csproj.Up2Date
+C:\Users\TundiDeLit\Desktop\New folder\Connect-4\Answers\993212002\Connect4\obj\Debug\net8.0\Connect4.dll
+C:\Users\TundiDeLit\Desktop\New folder\Connect-4\Answers\993212002\Connect4\obj\Debug\net8.0\refint\Connect4.dll
+C:\Users\TundiDeLit\Desktop\New folder\Connect-4\Answers\993212002\Connect4\obj\Debug\net8.0\Connect4.pdb
+C:\Users\TundiDeLit\Desktop\New folder\Connect-4\Answers\993212002\Connect4\obj\Debug\net8.0\Connect4.genruntimeconfig.cache
+C:\Users\TundiDeLit\Desktop\New folder\Connect-4\Answers\993212002\Connect4\obj\Debug\net8.0\ref\Connect4.dll

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "Z:\\Connect-4\\Answers\\993212002\\Connect4\\Connect4.csproj": {}
+    "C:\\Users\\TundiDeLit\\Desktop\\New folder\\Connect-4\\Answers\\993212002\\Connect4\\Connect4.csproj": {}
   },
   "projects": {
-    "Z:\\Connect-4\\Answers\\993212002\\Connect4\\Connect4.csproj": {
+    "C:\\Users\\TundiDeLit\\Desktop\\New folder\\Connect-4\\Answers\\993212002\\Connect4\\Connect4.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "Z:\\Connect-4\\Answers\\993212002\\Connect4\\Connect4.csproj",
+        "projectUniqueName": "C:\\Users\\TundiDeLit\\Desktop\\New folder\\Connect-4\\Answers\\993212002\\Connect4\\Connect4.csproj",
         "projectName": "Connect4",
-        "projectPath": "Z:\\Connect-4\\Answers\\993212002\\Connect4\\Connect4.csproj",
+        "projectPath": "C:\\Users\\TundiDeLit\\Desktop\\New folder\\Connect-4\\Answers\\993212002\\Connect4\\Connect4.csproj",
         "packagesPath": "C:\\Users\\TundiDeLit\\.nuget\\packages\\",
-        "outputPath": "Z:\\Connect-4\\Answers\\993212002\\Connect4\\obj\\",
+        "outputPath": "C:\\Users\\TundiDeLit\\Desktop\\New folder\\Connect-4\\Answers\\993212002\\Connect4\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -7,8 +7,8 @@
 
 
 //     a[i,4-i] = 0;
-        
-    
+
+
 // }
 
 // System.Console.WriteLine("1");
@@ -53,7 +53,7 @@
 // {
 
 //     b[4-i,i] = 1;
-    
+
 // }
 
 // System.Console.WriteLine();
@@ -106,7 +106,7 @@
 // {
 
 //     c[j,j] = 1;
-    
+
 // }
 
 // System.Console.WriteLine();
@@ -147,3 +147,45 @@
 
 // System.Console.WriteLine(c.SubMatrix(1,4,1,4).Diagonal().All(x => x == 1));
 
+// using MathNet.Numerics.LinearAlgebra;
+
+// float[,] c = new float[4,4];
+
+// for (int i = 3; i > -1;i--)
+// {
+
+//     for (int j = 3; j > -1; j--)
+//     {
+
+//         c[i,j] = i*j+(i-j)*(i+j);
+
+//     }
+    
+// }
+
+// Matrix<Single> a = Matrix<Single>.Build.DenseOfArray(c);
+
+// Matrix<Single> b = Matrix<Single>.Build.Dense(4,4,0);
+
+// for (int i = 3; i > -1;i--)
+// {
+
+//     b[3-i,i] = 1;
+    
+// }
+// System.Console.WriteLine(a.Diagonal());
+
+// System.Console.WriteLine(b);
+
+// System.Console.WriteLine(a.Multiply(b).Diagonal());
+
+// Matrix<float> mirror_SingleMatrix = Matrix<float>.Build.Dense(5,5,0);
+
+// for (int i = 4; i > -1; i--)
+// {
+
+//     mirror_SingleMatrix[4-i, i] = 1;
+    
+// }
+
+// System.Console.WriteLine(mirror_SingleMatrix);

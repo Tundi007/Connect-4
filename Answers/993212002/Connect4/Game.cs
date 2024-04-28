@@ -42,6 +42,20 @@ class Game
 
         }
 
+        pointer_Bool = false;
+
+        if(singlePlayer_Bool)
+            while(!MyUI.UserInterface_Function("Who Goes First? (Use Up/Down Arrow Keys, Escape To Exit):", "You", "Bot", pointer_Bool,out bool valid_Bool, out bool exit_Bool))
+            {
+
+                if(exit_Bool)
+                    PrematureExit_Function();
+
+                if(valid_Bool)
+                    (botFirst_Bool, pointer_Bool) = (!botFirst_Bool, !pointer_Bool);
+
+            }
+
     }
 
     private static void GameMode_Function()
@@ -49,7 +63,7 @@ class Game
 
         bool pointer_Bool = false;
 
-        bool botConfig_Bool = false;
+        bool botConfig_Bool = true;
 
         while(!MyUI.UserInterface_Function("Select Game Mode (Use Up/Down Arrow Keys, Escape To Exit):", "PvE (Single Player)", "PvP (Couch Play)", pointer_Bool,out bool valid_Bool, out bool exit_Bool))
         {
@@ -65,16 +79,16 @@ class Game
         pointer_Bool = false;
 
         if(singlePlayer_Bool)
-        while(!MyUI.UserInterface_Function("Game Configurations (Use Up/Down Arrow Keys, Escape To Exit):", "Default", "Options", pointer_Bool,out bool valid_Bool, out bool exit_Bool))
-        {
+            while(!MyUI.UserInterface_Function("Game Configurations (Use Up/Down Arrow Keys, Escape To Exit):", "Custom", "Default", pointer_Bool,out bool valid_Bool, out bool exit_Bool))
+            {
 
-            if(exit_Bool)
-                PrematureExit_Function();
+                if(exit_Bool)
+                    PrematureExit_Function();
 
-            if(valid_Bool)
-                (botConfig_Bool, pointer_Bool) = (!botConfig_Bool, !pointer_Bool);
+                if(valid_Bool)
+                    (botConfig_Bool, pointer_Bool) = (!botConfig_Bool, !pointer_Bool);
 
-        }
+            }
 
         if(botConfig_Bool)
             BotDifficulty_Function(false);
@@ -90,11 +104,11 @@ class Game
             
             bool pointer_Bool = false;
 
-            bool botDifficulty_Bool = false;
+            bool botDifficulty_Bool = true;
 
-            bool dumbBot_Bool = false;
+            bool visible_Bool = false;
 
-            while (!MyUI.UserInterface_Function($"Select Bot Configuration:", "Stock", "Upgraded", pointer_Bool, out bool valid_Bool, out bool exit_Bool))
+            while (!MyUI.UserInterface_Function($"Activate Upgrade Package?", "Yes", "No", pointer_Bool, out bool valid_Bool, out bool exit_Bool))
             {            
 
                 if (exit_Bool) Game.PrematureExit_Function();
@@ -106,34 +120,20 @@ class Game
 
             pointer_Bool = false;
 
-            while (!MyUI.UserInterface_Function($"Enable Clumsy Bot? (Bot Might Get Dumb)", "No", "Yes", pointer_Bool, out bool valid_Bool, out bool exit_Bool))
+            while (!MyUI.UserInterface_Function($"Show Approach?", "No", "Yes", pointer_Bool, out bool valid_Bool, out bool exit_Bool))
             {            
 
                 if (exit_Bool) Game.PrematureExit_Function();
 
                 if(valid_Bool)
-                    (dumbBot_Bool,pointer_Bool) = (!dumbBot_Bool,!pointer_Bool);
+                    (visible_Bool,pointer_Bool) = (!visible_Bool,!pointer_Bool);
 
             }
 
-            pointer_Bool = false;
-
-            if(singlePlayer_Bool)
-                while(!MyUI.UserInterface_Function("Who Goes First? (Use Up/Down Arrow Keys, Escape To Exit):", "You", "Bot", pointer_Bool,out bool valid_Bool, out bool exit_Bool))
-                {
-
-                    if(exit_Bool)
-                        PrematureExit_Function();
-
-                    if(valid_Bool)
-                        (botFirst_Bool, pointer_Bool) = (!botFirst_Bool, !pointer_Bool);
-
-                }
-
-            botInfo_String = Bot.BotSet_Function(botDifficulty_Bool, dumbBot_Bool,player1_Int, player2_Int);
+            botInfo_String = Bot.BotSet_Function(botDifficulty_Bool, visible_Bool, player2_Int, player1_Int);
             
         }else
-            botInfo_String = Bot.BotSet_Function(false, false, 0, 0);
+            botInfo_String = Bot.BotSet_Function(true, false, player2_Int, player1_Int);
     
     }
 
