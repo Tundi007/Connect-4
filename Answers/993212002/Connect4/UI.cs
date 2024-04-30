@@ -182,13 +182,13 @@ class MyUI
                 if (menuItems_ArrayString2D[rowNumber_Int, columnNumber_Int] == 1)
                 {
 
-                    System.Console.Write("| O ");
+                    System.Console.Write("| X ");
 
                 }
                 if (menuItems_ArrayString2D[rowNumber_Int, columnNumber_Int] == 2)
                 {
 
-                    System.Console.Write("| X ");
+                    System.Console.Write("| O ");
 
                 }
 

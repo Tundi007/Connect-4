@@ -7,19 +7,26 @@ class Game
 
     private static int lastColumn_Int = 0;
 
-    private static int player1_Int = 1;
+    private static int player1_Int;
 
-    private static int player2_Int = 2;
+    private static int player2_Int;
 
-    private static bool botFirst_Bool = false;
+    private static bool botFirst_Bool;
 
-    private static bool singlePlayer_Bool = true;
+    private static bool singlePlayer_Bool;
 
     public static bool sameRules_Bool = false;
 
     private static string error_String = "";
 
     private static string botInfo_String = "";
+
+    public static (int,int) GetTeams_Function()
+    {
+    
+        return(player1_Int,player2_Int);
+    
+    }
     
     private static void SideSelect_Function()
     {
@@ -31,7 +38,7 @@ class Game
         if(!singlePlayer_Bool)
             singlePlayer_String = "First Player, ";
 
-        while(!MyUI.UserInterface_Function($"{singlePlayer_String}Select Your Side (Use Up/Down Arrow Keys, Escape To Exit):", "O", "X", pointer_Bool,out bool valid_Bool, out bool exit_Bool))
+        while(!MyUI.UserInterface_Function($"{singlePlayer_String}Select Your Side (Use Up/Down Arrow Keys, Escape To Exit):", "X", "O", pointer_Bool,out bool valid_Bool, out bool exit_Bool))
         {
 
             if(exit_Bool)
@@ -42,14 +49,25 @@ class Game
 
         }
 
+        pointer_Bool = false;
+
+        while(!MyUI.UserInterface_Function("Who Goes First?:", "You", "Bot", pointer_Bool,out bool valid_Bool, out bool exit_Bool))
+        {
+
+            if(exit_Bool)
+                PrematureExit_Function();
+
+            if(valid_Bool)
+                (botFirst_Bool, pointer_Bool) = (!botFirst_Bool, !pointer_Bool);
+
+        }        
+
     }
 
     private static void GameMode_Function()
     {
 
         bool pointer_Bool = false;
-
-        bool botConfig_Bool = false;
 
         while(!MyUI.UserInterface_Function("Select Game Mode (Use Up/Down Arrow Keys, Escape To Exit):", "PvE (Single Player)", "PvP (Couch Play)", pointer_Bool,out bool valid_Bool, out bool exit_Bool))
         {
@@ -62,85 +80,64 @@ class Game
 
         }
 
-        pointer_Bool = false;
-
         if(singlePlayer_Bool)
-        while(!MyUI.UserInterface_Function("Game Configurations (Use Up/Down Arrow Keys, Escape To Exit):", "Default", "Options", pointer_Bool,out bool valid_Bool, out bool exit_Bool))
         {
 
-            if(exit_Bool)
-                PrematureExit_Function();
+            pointer_Bool = false;
 
-            if(valid_Bool)
-                (botConfig_Bool, pointer_Bool) = (!botConfig_Bool, !pointer_Bool);
+            bool customConfig_Bool = true;
+
+            SideSelect_Function();
+        
+            while(!MyUI.UserInterface_Function("Game Configurations (Use Up/Down Arrow Keys, Escape To Exit):", "AddOn", "Default", pointer_Bool,out bool valid_Bool, out bool exit_Bool))
+            {
+
+                if(exit_Bool)
+                    PrematureExit_Function();
+
+                if(valid_Bool)
+                    (customConfig_Bool, pointer_Bool) = (!customConfig_Bool, !pointer_Bool);
+
+            }
+
+            if(customConfig_Bool)
+                BotAddon_Function(false);
+            else
+                botInfo_String = Bot.BotSet_Function(false, true, player2_Int, player1_Int);
 
         }
 
-        if(botConfig_Bool)
-            BotDifficulty_Function(false);
-        else
-            BotDifficulty_Function(true);
-
     }
 
-    private static void BotDifficulty_Function(bool sameBot_Bool)
+    private static void BotAddon_Function(bool sameBot_Bool)
     {
 
-        if(!sameBot_Bool){
+        if(sameBot_Bool)
+            return;
             
-            bool pointer_Bool = false;
+        bool pointer_Bool = false;
 
-            bool botDifficulty_Bool = false;
+        bool botDifficulty_Bool = true;
 
-            bool dumbBot_Bool = false;
+        while (!MyUI.UserInterface_Function($"Select Bot Configuration:", "Upgraded", "Dumb", pointer_Bool, out bool valid_Bool, out bool exit_Bool))
+        {            
 
-            while (!MyUI.UserInterface_Function($"Select Bot Configuration:", "Stock", "Upgraded", pointer_Bool, out bool valid_Bool, out bool exit_Bool))
-            {            
+            if (exit_Bool) Game.PrematureExit_Function();
 
-                if (exit_Bool) Game.PrematureExit_Function();
+            if(valid_Bool)
+                (botDifficulty_Bool,pointer_Bool) = (!botDifficulty_Bool,!pointer_Bool);
 
-                if(valid_Bool)
-                    (botDifficulty_Bool,pointer_Bool) = (!botDifficulty_Bool,!pointer_Bool);
+        }
 
-            }
-
-            pointer_Bool = false;
-
-            while (!MyUI.UserInterface_Function($"Enable Clumsy Bot? (Bot Might Get Dumb)", "No", "Yes", pointer_Bool, out bool valid_Bool, out bool exit_Bool))
-            {            
-
-                if (exit_Bool) Game.PrematureExit_Function();
-
-                if(valid_Bool)
-                    (dumbBot_Bool,pointer_Bool) = (!dumbBot_Bool,!pointer_Bool);
-
-            }
-
-            pointer_Bool = false;
-
-            if(singlePlayer_Bool)
-                while(!MyUI.UserInterface_Function("Who Goes First? (Use Up/Down Arrow Keys, Escape To Exit):", "You", "Bot", pointer_Bool,out bool valid_Bool, out bool exit_Bool))
-                {
-
-                    if(exit_Bool)
-                        PrematureExit_Function();
-
-                    if(valid_Bool)
-                        (botFirst_Bool, pointer_Bool) = (!botFirst_Bool, !pointer_Bool);
-
-                }
-
-            botInfo_String = Bot.BotSet_Function(botDifficulty_Bool, dumbBot_Bool,player1_Int, player2_Int);
-            
-        }else
-            botInfo_String = Bot.BotSet_Function(false, false, 0, 0);
+        botInfo_String = Bot.BotSet_Function(botDifficulty_Bool, false, player2_Int, player1_Int);
     
     }
 
     public static void Load_Function()
     {
 
-        if(!sameRules_Bool){
+        if(!sameRules_Bool)
+        {
             
             lastColumn_Int = 0;
 
@@ -213,13 +210,8 @@ class Game
 
         Console.Clear();
 
-        if(!sameRules_Bool){
-
+        if(!sameRules_Bool)
             GameMode_Function();
-
-            SideSelect_Function();
-        
-        }
 
         Game_Function();
 

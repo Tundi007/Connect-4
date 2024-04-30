@@ -7,8 +7,8 @@
 
 
 //     a[i,4-i] = 0;
-        
-    
+
+
 // }
 
 // System.Console.WriteLine("1");
@@ -53,7 +53,7 @@
 // {
 
 //     b[4-i,i] = 1;
-    
+
 // }
 
 // System.Console.WriteLine();
@@ -106,7 +106,7 @@
 // {
 
 //     c[j,j] = 1;
-    
+
 // }
 
 // System.Console.WriteLine();
@@ -147,3 +147,15 @@
 
 // System.Console.WriteLine(c.SubMatrix(1,4,1,4).Diagonal().All(x => x == 1));
 
+// string[] a = "play\nerBoard_Floa\ntMatrix.\nToString()".Split('\n');
+
+// foreach (string b in a)
+// {
+
+//     System.Console.WriteLine(b);
+
+// }
+
+// using System.Text.RegularExpressions;
+
+// System.Console.WriteLine(Regex.Replace("0  1  1  0  2  2  0  0".Replace('0','-').Replace('1','X').Replace('2','O'),"\\s\\s"," 0 ").Replace('0', '|'));

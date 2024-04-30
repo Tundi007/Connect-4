@@ -50,6 +50,9 @@ class Bot
                     botMaxPieces_Int[elementColumn_Int] = Upgraded_Function(botBoard_FloatMatrix, botID_Int);
                 else
                     botMaxPieces_Int[elementColumn_Int] = Max_Function(botBoard_FloatMatrix, botID_Int);
+            
+                if(botMaxPieces_Int[elementColumn_Int] == 100)
+                    return elementColumn_Int;
 
 
                 for (int playerColumn_Int = 0; playerColumn_Int < 5; playerColumn_Int++)
@@ -65,7 +68,7 @@ class Bot
                         playerBoard_FloatMatrix[playerRow_Int,playerColumn_Int] = playerID_Int;
 
                         if(upgradedBot_Bool)
-                            playerMaxPieces_Int[elementColumn_Int] = Upgraded_Function(playerBoard_FloatMatrix, playerID_Int);
+                            min_Int = Upgraded_Function(playerBoard_FloatMatrix, playerID_Int);
                         else
                             min_Int = Max_Function(playerBoard_FloatMatrix, playerID_Int);
 
@@ -80,11 +83,8 @@ class Bot
                 }
 
             }
-            
-            if(botMaxPieces_Int[elementColumn_Int] == 100)
-                return elementColumn_Int;
 
-            if(clumsyBot_Bool & botMaxPieces_Int[elementColumn_Int] != -10)
+            if(clumsyBot_Bool)
             {
 
                 playerMaxPieces_Int[elementColumn_Int] += RandomNumberGenerator.GetInt32(99,101);
@@ -122,18 +122,20 @@ class Bot
     private static int Upgraded_Function(Matrix<float> botBoard_FloatMatrix, int ID_Int)
     {
 
-        int temp1_Int = UpgradedMax_Function(botBoard_FloatMatrix, ID_Int);
+        // int temp1_Int = UpgradedMax_Function(botBoard_FloatMatrix, ID_Int);
 
-        int temp2_Int = Max_Function(botBoard_FloatMatrix, ID_Int);
+        // int temp2_Int = Max_Function(botBoard_FloatMatrix, ID_Int);
 
-        int return_Int;
+        // int return_Int;
 
-        if (temp2_Int > temp1_Int)
-            return_Int = temp2_Int;
-        else
-            return_Int = temp1_Int;
+        // if (temp2_Int > temp1_Int)
+        //     return_Int = temp2_Int;
+        // else
+        //     return_Int = temp1_Int;
 
-        return return_Int;
+        // return return_Int;
+
+        return UpgradedMax_Function(botBoard_FloatMatrix, ID_Int);
 
     }
 
@@ -306,7 +308,7 @@ class Bot
     
     }
 
-    public static string BotSet_Function(bool difficulty_Bool, bool dumbMode_Bool, int bot_Int, int player_Int)
+    public static string BotSet_Function(bool difficulty_Bool, bool default_Bool, int bot_Int, int player_Int)
     {
 
         string botInfo_String = "Bot: ";
@@ -315,9 +317,9 @@ class Bot
         {
             
             if(upgradedBot_Bool)
-                botInfo_String += "[Advanced] ";
+                botInfo_String += "[Advanced]";
             else
-                botInfo_String += "[Normal] ";
+                botInfo_String += "[Normal]";
 
             if(clumsyBot_Bool)
                 botInfo_String += "[Clumsy]";
@@ -326,21 +328,45 @@ class Bot
 
         }
 
+        if(default_Bool)
+        {
+
+            playerID_Int = player_Int;
+
+            botID_Int = bot_Int;
+
+            clumsyBot_Bool = false;
+        
+            upgradedBot_Bool = false;
+
+            botInfo_String += "[Normal]";
+
+        }
+
         playerID_Int = player_Int;
 
         botID_Int = bot_Int;
+
+        if(difficulty_Bool)
+        {
+
+            botInfo_String += "[Advanced]";
+
+            clumsyBot_Bool = false;
         
-        upgradedBot_Bool = difficulty_Bool;
-
-        clumsyBot_Bool = dumbMode_Bool;
-
-        if(upgradedBot_Bool)
-            botInfo_String += "[Advanced] ";
+            upgradedBot_Bool = true;
+            
+        }
         else
-            botInfo_String += "[Normal] ";
+        {
 
-        if(clumsyBot_Bool)
             botInfo_String += "[Clumsy]";
+            
+            clumsyBot_Bool = true;
+
+            upgradedBot_Bool = false;
+            
+        }
 
         return botInfo_String;
     
