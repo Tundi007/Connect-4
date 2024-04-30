@@ -331,6 +331,8 @@ class Bot
 
             botInfo_String += "[Normal]";
 
+            return botInfo_String;
+
         }
 
         playerID_Int = player_Int;
@@ -392,12 +394,25 @@ class Bot
 
         if(botPoints_Int == 100)
         {
-        
-            MyUI.ShowMenu_Function(board_FloatMatrix,columnNumber_Int);
 
-            System.Console.WriteLine($"Check Mate!");
+            for (int i = 0; i < 4; i++)
+            {
 
-            Thread.Sleep(2000);
+                System.Console.Write("\n\n\n\n\n\n\n\n");
+
+                Thread.Sleep(10);
+
+                Console.Clear();
+                        
+                MyUI.ShowMenu_Function(board_FloatMatrix,columnNumber_Int);
+
+                System.Console.WriteLine($"Check Mate!");
+
+                Thread.Sleep(500);
+
+                Console.Clear();                
+                
+            }
 
             return;
 
