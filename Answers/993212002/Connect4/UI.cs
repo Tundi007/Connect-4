@@ -93,6 +93,9 @@ class MyUI
                 case ConsoleKey.Enter:
                     return menuPointerColumn_Int;
 
+                case ConsoleKey.A:
+                    return 10 + menuPointerColumn_Int;
+
                 case ConsoleKey.Escape:
                 {
 

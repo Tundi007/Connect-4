@@ -10,6 +10,8 @@ class Bot
 
     private static bool clumsyBot_Bool = false;
 
+    private static bool visibleAlgorithm_Bool = false;
+
     private static int playerID_Int = 1;
 
     private static int botID_Int = 2;
@@ -47,12 +49,18 @@ class Bot
                 botBoard_FloatMatrix.SetColumn(elementColumn_Int,elementVector_FloatVector);
 
                 if(upgradedBot_Bool)
-                    botMaxPieces_Int[elementColumn_Int] = Upgraded_Function(botBoard_FloatMatrix, botID_Int);
+                    botMaxPieces_Int[elementColumn_Int] = UpgradedMax_Function(botBoard_FloatMatrix, botID_Int);
                 else
                     botMaxPieces_Int[elementColumn_Int] = Max_Function(botBoard_FloatMatrix, botID_Int);
             
                 if(botMaxPieces_Int[elementColumn_Int] == 100)
+                {
+
+                    ShowSteps(botBoard_FloatMatrix,100,0,elementColumn_Int);
+                
                     return elementColumn_Int;
+                    
+                }
 
 
                 for (int playerColumn_Int = 0; playerColumn_Int < 5; playerColumn_Int++)
@@ -68,7 +76,7 @@ class Bot
                         playerBoard_FloatMatrix[playerRow_Int,playerColumn_Int] = playerID_Int;
 
                         if(upgradedBot_Bool)
-                            min_Int = Upgraded_Function(playerBoard_FloatMatrix, playerID_Int);
+                            min_Int = UpgradedMax_Function(playerBoard_FloatMatrix, playerID_Int);
                         else
                             min_Int = Max_Function(playerBoard_FloatMatrix, playerID_Int);
 
@@ -77,6 +85,9 @@ class Bot
 
                         if(playerMaxPieces_Int[elementColumn_Int] < min_Int)
                             playerMaxPieces_Int[elementColumn_Int] = min_Int;
+
+                        if(visibleAlgorithm_Bool)
+                            ShowSteps(playerBoard_FloatMatrix,botMaxPieces_Int[elementColumn_Int],min_Int,-1);
 
                     }
                     
@@ -117,26 +128,6 @@ class Bot
 
         return bestMove_Int;
     
-    }
-
-    private static int Upgraded_Function(Matrix<float> botBoard_FloatMatrix, int ID_Int)
-    {
-
-        // int temp1_Int = UpgradedMax_Function(botBoard_FloatMatrix, ID_Int);
-
-        // int temp2_Int = Max_Function(botBoard_FloatMatrix, ID_Int);
-
-        // int return_Int;
-
-        // if (temp2_Int > temp1_Int)
-        //     return_Int = temp2_Int;
-        // else
-        //     return_Int = temp1_Int;
-
-        // return return_Int;
-
-        return UpgradedMax_Function(botBoard_FloatMatrix, ID_Int);
-
     }
 
     private static int Max_Function(Matrix<float> max_FloatMatrix, int ID_Int)
@@ -205,25 +196,24 @@ class Bot
             else
                 corner1_Int++;
 
+            Matrix<float> mirror_SingleMatrix = Matrix<float>.Build.Dense(4,4,0);
+
+            for (int i = 0; i < 4; i++)
             {
 
-                Matrix<float> mirror_SingleMatrix = Matrix<float>.Build.Dense(4,4,0);
-
-                for (int i = 0; i < 4; i++)
-                {
-
-                    mirror_SingleMatrix[3-i,i] = 1;
-                    
-                }
-
-                highestCount_Int = UpgradedVectorElementCount_Function(copy_FloatMatrix.Diagonal(), ID_Int);
-
-                int mirroredDiagonal_Int = UpgradedVectorElementCount_Function(copy_FloatMatrix.Multiply(mirror_SingleMatrix).Diagonal(), ID_Int);
-
-                if (highestCount_Int < mirroredDiagonal_Int)
-                    highestCount_Int = mirroredDiagonal_Int;
+                mirror_SingleMatrix[3-i,i] = 1;
                 
             }
+
+            int diagonal_int = UpgradedVectorElementCount_Function(copy_FloatMatrix.Diagonal(), ID_Int);
+
+            int mirroredDiagonal_Int = UpgradedVectorElementCount_Function(copy_FloatMatrix.Multiply(mirror_SingleMatrix).Diagonal(), ID_Int);
+
+            if(highestCount_Int < mirroredDiagonal_Int)
+                highestCount_Int = mirroredDiagonal_Int;
+
+            if(highestCount_Int < diagonal_int)
+                highestCount_Int = diagonal_int;
 
             for (int index_Int = 0; index_Int < 4; index_Int++)
             {
@@ -370,6 +360,56 @@ class Bot
 
         return botInfo_String;
     
+    }
+
+    public static string Visiblity_Function()
+    {
+
+        visibleAlgorithm_Bool = !visibleAlgorithm_Bool;
+
+        string botInfo_String = "Bot: ";
+            
+        if(upgradedBot_Bool)
+            botInfo_String += "[Advanced]";
+        else if(clumsyBot_Bool)
+            botInfo_String += "[Clumsy]";
+        else
+            botInfo_String += "[Normal]";
+
+        if(visibleAlgorithm_Bool)
+            botInfo_String += "[Visible]";
+        else
+            botInfo_String += "[Hidden]";
+
+        return botInfo_String;
+    
+    }
+
+    private static void ShowSteps(Matrix<Single> board_FloatMatrix, int botPoints_Int, int playerPoints_Int, int columnNumber_Int)
+    {
+
+        Console.Clear();
+
+        if(botPoints_Int == 100)
+        {
+        
+            MyUI.ShowMenu_Function(board_FloatMatrix,columnNumber_Int);
+
+            System.Console.WriteLine($"Check Mate!");
+
+            Thread.Sleep(2000);
+
+            return;
+
+        }
+        
+        MyUI.ShowMenu_Function(board_FloatMatrix,-1);
+
+        System.Console.WriteLine($"You vs Bot: {playerPoints_Int} - {botPoints_Int} [Points]");
+
+        Thread.Sleep(120);
+
+
     }
 
 }

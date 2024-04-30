@@ -287,11 +287,18 @@ class Game
             if(elementColumn_Int == -2)
                 return false;
 
-            if(Action_Function(elementColumn_Int, player_Int))
+            if(elementColumn_Int > 9)
+            {
+
+                botInfo_String = Bot.Visiblity_Function();
+
+                lastColumn_Int = elementColumn_Int - 10;
+                
+            }
+            else if(Action_Function(elementColumn_Int, player_Int))                
                 return true;
-
-            error_String = $"Can't Place There (Column: {elementColumn_Int + 1})";
-
+            else
+                error_String = $"Can't Place There (Column: {elementColumn_Int + 1})";
         }
 
     }
