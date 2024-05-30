@@ -1,4 +1,3 @@
-using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 namespace Connect4;
 
